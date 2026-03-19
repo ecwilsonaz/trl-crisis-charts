@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRL: Anatomy of a Financial Crisis</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --navy: #0a1628;
+  --navy-mid: #152238;
+  --navy-light: #1e3050;
+  --slate: #3a4a5c;
+  --steel: #6b7a8d;
+  --silver: #a0adb8;
+  --fog: #c8d1da;
+  --ice: #e8ecf0;
+  --white: #f4f6f8;
+  --red: #c43b3b;
+  --red-dim: #8a2c2c;
+  --red-glow: #e84545;
+  --amber: #d4943a;
+  --green: #3a8a5c;
+  --green-dim: #2a6844;
+  --blue-accent: #4a7fb5;
+  --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
+  --font-serif: 'IBM Plex Serif', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--navy);
+  color: var(--ice);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 40px 100px;
+}
+
+/* HEADER */
+.header {
+  border-bottom: 1px solid var(--slate);
+  padding-bottom: 40px;
+  margin-bottom: 60px;
+}
+
+.header-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.header h1 {
+  font-family: var(--font-serif);
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.header .subtitle {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--silver);
+  max-width: 700px;
+}
+
+.header .source-line {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--steel);
+  margin-top: 20px;
+  letter-spacing: 0.5px;
+}
+
+/* SECTION HEADINGS — 8px vertical rhythm scale */
+.exhibit {
+  margin-bottom: 64px;
+}
+
+.exhibit-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 4px;
+}
+
+.exhibit h2 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.exhibit .exhibit-desc {
+  font-size: 14px;
+  color: var(--silver);
+  line-height: 1.7;
+  margin-bottom: 24px;
+  max-width: 700px;
+}
+
+/* CHART CONTAINERS */
+.chart-frame {
+  background: var(--navy-mid);
+  border: 1px solid var(--navy-light);
+  padding: 32px;
+  position: relative;
+}
+
+.chart-frame canvas {
+  width: 100%;
+  display: block;
+}
+
+/* KEY METRICS ROW */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--navy-light);
+  border: 1px solid var(--navy-light);
+  margin-bottom: 60px;
+}
+
+.metric-card {
+  background: var(--navy-mid);
+  padding: 24px;
+}
+
+.metric-card .metric-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 8px;
+}
+
+.metric-card .metric-value {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.metric-card .metric-context {
+  font-size: 12px;
+  color: var(--silver);
+}
+
+.metric-red .metric-value { color: var(--red-glow); }
+.metric-amber .metric-value { color: var(--amber); }
+.metric-green .metric-value { color: var(--green); }
+
+/* QUOTE CALLOUTS */
+.quote-timeline {
+  position: relative;
+  padding-left: 32px;
+  border-left: 2px solid var(--navy-light);
+  margin: 32px 0 32px 20px;
+}
+
+.quote-item {
+  position: relative;
+  margin-bottom: 32px;
+  padding-left: 20px;
+}
+
+.quote-item:last-child {
+  margin-bottom: 0;
+}
+
+.quote-item::before {
+  content: '';
+  position: absolute;
+  left: -41px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--steel);
+  background: var(--navy);
+}
+
+.quote-item.quote-danger::before {
+  border-color: var(--red);
+  background: var(--red-dim);
+}
+
+.quote-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--steel);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.quote-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--fog);
+  line-height: 1.5;
+}
+
+.quote-text strong {
+  color: var(--white);
+  font-style: italic;
+  font-weight: 600;
+}
+
+.quote-speaker {
+  font-size: 12px;
+  color: var(--steel);
+  margin-top: 4px;
+}
+
+.quote-item.quote-danger .quote-text {
+  color: var(--ice);
+}
+
+.quote-item.quote-event .quote-date {
+  color: var(--red);
+}
+
+.quote-item.quote-event .quote-text {
+  font-style: normal;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--red-glow);
+  font-size: 14px;
+}
+
+/* CONTRAST BOX */
+.contrast-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--navy-light);
+  border: 1px solid var(--navy-light);
+  margin-top: 24px;
+}
+
+.contrast-side {
+  background: var(--navy-mid);
+  padding: 28px;
+}
+
+.contrast-side h3 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.contrast-side.side-red h3 { color: var(--red); }
+.contrast-side.side-green h3 { color: var(--green); }
+
+.contrast-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 14px;
+}
+
+.contrast-item:last-child { border-bottom: none; }
+
+.contrast-item .c-label { color: var(--silver); }
+.contrast-item .c-value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.side-red .c-value { color: var(--red-glow); }
+.side-green .c-value { color: var(--green); }
+
+.contrast-item .c-detail {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--steel);
+  margin-left: auto;
+  margin-right: 16px;
+}
+
+.contrast-item.c-zero {
+  border-bottom-color: rgba(232,69,69,0.15);
+}
+.contrast-item.c-zero .c-label { color: var(--ice); }
+.contrast-item.c-zero .c-value {
+  font-size: 20px;
+  color: var(--red-glow);
+}
+
+.contrast-summary {
+  background: var(--navy-mid);
+  border: 1px solid var(--navy-light);
+  border-top: 2px solid var(--red);
+  padding: 16px 28px;
+  margin-top: 1px;
+  font-size: 13px;
+  color: var(--silver);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--slate);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--steel);
+  letter-spacing: 0.3px;
+  line-height: 1.8;
+  text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* CHART LEGEND */
+.legend {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--silver);
+}
+
+.legend-swatch {
+  width: 16px;
+  height: 3px;
+  flex-shrink: 0;
+}
+
+/* ANNOTATION LABELS ON CHARTS */
+.chart-note {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--steel);
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .page { padding: 32px 20px 60px; }
+
+  .header { padding-bottom: 28px; margin-bottom: 40px; }
+  .header h1 { font-size: 26px; }
+  .header .subtitle { font-size: 15px; }
+
+  .metrics-row { grid-template-columns: repeat(2, 1fr); }
+  .metric-card .metric-value { font-size: 22px; }
+
+  .exhibit { margin-bottom: 48px; }
+  .exhibit h2 { font-size: 20px; }
+  .exhibit .exhibit-desc { font-size: 13px; line-height: 1.7; max-width: none; }
+
+  .chart-frame { padding: 12px 4px 16px; border-radius: 4px; }
+  .chart-frame canvas { min-height: 240px; }
+
+  .legend { flex-wrap: wrap; gap: 8px 16px; margin-bottom: 12px; }
+  .legend-item { font-size: 11px; }
+
+  .chart-note { font-size: 9px; line-height: 1.6; }
+
+  .quote-timeline { margin-left: 10px; padding-left: 20px; }
+  .quote-item { padding-left: 12px; padding: 14px 0 14px 12px; }
+  .quote-item::before { left: -29px; }
+  .quote-text { font-size: 15px; line-height: 1.6; }
+  .quote-speaker { font-size: 11px; line-height: 1.5; }
+
+  .contrast-box { grid-template-columns: 1fr; }
+  .contrast-side { padding: 20px; }
+  .contrast-item .c-detail { display: none; }
+  .contrast-item .c-value { font-size: 16px; }
+  .contrast-summary { font-size: 12px; padding: 14px 20px; }
+
+  .footer { font-size: 9px; max-width: none; }
+}
+
+@media (max-width: 480px) {
+  .page { padding: 24px 16px 40px; }
+
+  .header h1 { font-size: 22px; letter-spacing: -0.3px; }
+  .header .subtitle { font-size: 14px; }
+  .header-eyebrow { font-size: 9px; letter-spacing: 2px; }
+
+  .metrics-row { grid-template-columns: 1fr 1fr; gap: 1px; }
+  .metric-card { padding: 16px 12px; }
+  .metric-card .metric-value { font-size: 20px; }
+  .metric-card .metric-label { font-size: 8px; letter-spacing: 1px; }
+  .metric-card .metric-context { font-size: 11px; }
+
+  .exhibit { margin-bottom: 36px; }
+  .exhibit-label { font-size: 10px; margin-bottom: 4px; }
+  .exhibit h2 { font-size: 18px; margin-bottom: 8px; }
+
+  .chart-frame { padding: 8px 2px 12px; }
+  .chart-frame canvas { min-height: 220px; }
+
+  .quote-text { font-size: 14px; }
+  .quote-date { font-size: 10px; }
+
+  .contrast-side { padding: 16px; }
+  .contrast-item { font-size: 13px; padding: 10px 0; }
+  .contrast-item .c-value { font-size: 15px; }
+  .contrast-item.c-zero .c-value { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="header">
+  <h1>Timberland Regional Library:<br>Anatomy of a Financial Crisis</h1>
+  <div class="subtitle">How leadership claimed financial health while fund balances collapsed, then laid off 61 frontline employees</div>
+  <div class="source-line">Sources: TRL Final Budget documents (trl.org/budget), Board Meeting Minutes &amp; Recordings &mdash; All public records</div>
+</header>
+
+<!-- KEY METRICS -->
+<div class="metrics-row">
+  <div class="metric-card metric-red">
+    <div class="metric-label">2026 Budget Gap</div>
+    <div class="metric-value">$3.8M</div>
+    <div class="metric-context">Expenditures exceed revenue</div>
+  </div>
+  <div class="metric-card metric-red">
+    <div class="metric-label">Frontline Layoffs</div>
+    <div class="metric-value">61</div>
+    <div class="metric-context">38% of frontline staff</div>
+  </div>
+  <div class="metric-card metric-amber">
+    <div class="metric-label">Fund Balance Decline</div>
+    <div class="metric-value">$12.2M</div>
+    <div class="metric-context">Combined funds, 2022&ndash;2026</div>
+  </div>
+  <div class="metric-card metric-red">
+    <div class="metric-label">ED Salary Increase</div>
+    <div class="metric-value">+37%</div>
+    <div class="metric-context">$155K&rarr;$213K (2023&ndash;2026)</div>
+  </div>
+</div>
+
+<!-- EXHIBIT A: Revenue vs Expenditures -->
+<section class="exhibit">
+  <div class="exhibit-label">Exhibit A</div>
+  <h2>The Scissors: Revenue vs. Expenditures</h2>
+  <div class="exhibit-desc">For years, revenue comfortably exceeded expenditures. In 2023, expenditures crossed above revenue for the first time. The gap widened every year while leadership told the board "we're in the black." All data from TRL General Fund budget documents.</div>
+  <div class="chart-frame">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background: var(--blue-accent)"></div> Revenue</div>
+      <div class="legend-item"><div class="legend-swatch" style="background: var(--red)"></div> Expenditures</div>
+      <div class="legend-item" style="display: none">Salaries</div>
+    </div>
+    <canvas id="chartA" style="height: 42vh"></canvas>
+    <div class="chart-note">Shaded area = deficit (expenditures exceeding revenue)</div>
+  </div>
+</section>
+
+<!-- EXHIBIT B: What They Said -->
+<section class="exhibit">
+  <div class="exhibit-label">Exhibit B</div>
+  <h2>What Leadership Said vs. What Happened</h2>
+  <div class="exhibit-desc">All quotes from public board meeting recordings, verified against the original video.</div>
+  <div class="quote-timeline">
+    <div class="quote-item">
+      <div class="quote-date">August 28, 2024</div>
+      <div class="quote-text">"Timberland <strong>does not have a deficit</strong>. We cannot have a deficit. We do not want to get to the point of a deficit."</div>
+      <div class="quote-speaker">&mdash; Cheryl Heywood, Executive Director &nbsp;|&nbsp; General Fund expenditures had exceeded revenue by $948K the prior year</div>
+    </div>
+    <div class="quote-item">
+      <div class="quote-date">September 25, 2024</div>
+      <div class="quote-text">"<strong>We are in the black</strong> because of all of our decisions that we've made since 2013."</div>
+      <div class="quote-speaker">&mdash; Cheryl Heywood &nbsp;|&nbsp; Said to a public audience including a county commissioner. Combined fund balances had fallen $5.3M from their 2021 peak.</div>
+    </div>
+    <div class="quote-item quote-danger">
+      <div class="quote-date">December 18, 2024</div>
+      <div class="quote-text">"If you do go into the red, then you have to do something pretty quick, <strong>like have a reduction in force</strong>."</div>
+      <div class="quote-speaker">&mdash; Cheryl Heywood &nbsp;|&nbsp; Describing the exact scenario she would preside over 15 months later</div>
+    </div>
+    <div class="quote-item quote-danger">
+      <div class="quote-date">January 22, 2025</div>
+      <div class="quote-text">"[This plan] includes forecasts based on attrition with <strong>no reduction in force, which means no people will be laid off</strong>."</div>
+      <div class="quote-speaker">&mdash; Cheryl Heywood &nbsp;|&nbsp; Presenting a new staffing plan. Per-employee costs were growing 5&ndash;11% annually; revenue, 1&ndash;3%.</div>
+    </div>
+    <div class="quote-item quote-danger">
+      <div class="quote-date">June 25, 2025</div>
+      <div class="quote-text">"Main reason why we did this [the staffing reorganization] is <strong>to stave off a financial cliff</strong>."</div>
+      <div class="quote-speaker">&mdash; Cheryl Heywood &nbsp;|&nbsp; Despite this warning, she recommended the CBA (5.7% per-employee increase) and executive raises over the following six months.</div>
+    </div>
+    <div class="quote-item quote-event" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06);">
+      <div class="quote-date">December 30, 2025</div>
+      <div class="quote-text">Board approves $3.8M deficit budget + ED 2-year contract with 3% annual raises. Vote: 4-0 (two seats vacant).</div>
+    </div>
+    <div class="quote-item quote-event">
+      <div class="quote-date">March 2026</div>
+      <div class="quote-text">61 frontline employees laid off. Three branches to unstaffed self-service. No admin positions eliminated. No admin raises rescinded. ED salary: $212,991.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXHIBIT C: Fund Balance Collapse -->
+<section class="exhibit">
+  <div class="exhibit-label">Exhibit C</div>
+  <h2>Fund Balance Collapse</h2>
+  <div class="exhibit-desc">Combined fund balances grew steadily from 2017 to 2020, peaking near $19.3M. The board then lowered its fund balance policy threshold, freeing up $4.9M for building projects. That cushion was spent down on facilities while salaries simultaneously exploded &mdash; a double hit that dropped reserves 60% by 2026.</div>
+  <div class="chart-frame">
+    <canvas id="chartC" style="height: 42vh"></canvas>
+    <div class="chart-note">Dashed line = 30% of revenue (policy-required minimum beginning fund balance)</div>
+  </div>
+</section>
+
+<!-- EXHIBIT D: The Two Drivers -->
+<section class="exhibit">
+  <div class="exhibit-label">Exhibit D</div>
+  <h2>The Two Drivers</h2>
+  <div class="exhibit-desc">The two forces that drained TRL's reserves, measured against revenue. Salaries are the structural ramp &mdash; from 51 cents of every revenue dollar in 2017 to 59 cents in 2026. Building projects were the temporary spike, peaking in 2024 when the Mountain View library build consumed 11% of revenue. Together they explain the fund balance collapse shown in Exhibit C.</div>
+  <div class="chart-frame">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background: var(--red-glow)"></div> Salaries (General Fund)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background: var(--amber)"></div> Building Fund expenditures</div>
+    </div>
+    <canvas id="chartD2" style="height: 42vh"></canvas>
+    <div class="chart-note">Salaries as percentage of General Fund revenue. Building Fund expenditures are a separate fund, financed by a $5.6M General Fund transfer in 2020. All data from TRL budget documents.</div>
+  </div>
+</section>
+
+<!-- EXHIBIT E: Fewer People, More Money -->
+<section class="exhibit">
+  <div class="exhibit-label">Exhibit E</div>
+  <h2>Fewer People, More Money</h2>
+  <div class="exhibit-desc">TRL's budgeted workforce shrank from 253 FTE in 2017 to 230 in 2025 &mdash; a 9% decline. During the same period, total salary expenditures grew 34%, from $11.7M to $15.6M. The entire salary increase was per-person cost growth, not headcount. TRL hired 133 people since 2019, but that was turnover replacement &mdash; total positions went down.</div>
+  <div class="chart-frame">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background: var(--blue-accent)"></div> Budgeted Positions (left axis)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background: var(--red-glow)"></div> Total Salary Spending (right axis)</div>
+    </div>
+    <canvas id="chartE1" style="height: 42vh"></canvas>
+    <div class="chart-note">FTE from Position Inventory tables in each TRL Final Budget. Salaries from General Fund Expenditure tables. TRL hired 133 people since 2019, but total positions declined &mdash; all replacement hires, not growth.</div>
+  </div>
+</section>
+
+<!-- EXHIBIT F: The Structural Mismatch -->
+<section class="exhibit">
+  <div class="exhibit-label">Exhibit F</div>
+  <h2>The Structural Mismatch</h2>
+  <div class="exhibit-desc">Revenue is structurally capped by the 1% levy lid and cannot keep pace with inflation. Per-employee salary costs tracked Seattle-area inflation through 2023, then pulled sharply ahead via CBA increases, reclassifications, and executive raises. The growing gap between costs and revenue capacity is the crisis leadership never addressed.</div>
+  <div class="chart-frame">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background: var(--red-glow)"></div> Salary per FTE</div>
+      <div class="legend-item"><div class="legend-swatch" style="background: var(--steel); height: 1px; border-top: 2px dashed var(--steel)"></div> Seattle CPI</div>
+      <div class="legend-item"><div class="legend-swatch" style="background: var(--green)"></div> Revenue</div>
+    </div>
+    <canvas id="chartE" style="height: 42vh"></canvas>
+    <div class="chart-note">All indexed to 2017 = 100. CPI-U annual averages from BLS Series CUURS49DSA0 (Seattle-Tacoma-Bellevue). Salary per FTE = General Fund salary actuals / budgeted FTE from TRL Position Inventory. FTE declined from 253 (2017) to 229 (2025) &mdash; the entire salary increase was per-person cost growth, not headcount.</div>
+  </div>
+</section>
+
+<!-- EXHIBIT G: Levy Rate -->
+<section class="exhibit">
+  <div class="exhibit-label">Exhibit G</div>
+  <h2>The Revenue Option Never Pursued</h2>
+  <div class="exhibit-desc">TRL's levy rate has declined 45% since 2016 and sits at less than half the statutory maximum. The last levy lid lift attempt was in 2009. Heywood's job description requires her to "explore and propose to the Board new potential sources of finance."</div>
+  <div class="chart-frame">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background: var(--blue-accent)"></div> TRL Levy Rate</div>
+      <div class="legend-item"><div class="legend-swatch" style="background: var(--red); height:1px; border-top: 1px dashed var(--red)"></div> Statutory Maximum ($0.50)</div>
+    </div>
+    <canvas id="chartD" style="height: 42vh"></canvas>
+    <div class="chart-note">TRL's current rate: $0.224 &mdash; less than half the $0.50 maximum</div>
+  </div>
+</section>
+
+<!-- EXHIBIT H: Who Gained, Who Lost -->
+<section class="exhibit">
+  <div class="exhibit-label">Exhibit H</div>
+  <h2>Who Gained, Who Lost</h2>
+  <div class="exhibit-desc">Every executive kept their raise. Every layoff was frontline.</div>
+  <div class="contrast-box">
+    <div class="contrast-side side-red">
+      <h3>Who Gained (2023&rarr;2026)</h3>
+      <div class="contrast-item"><span class="c-label">Executive Director</span><span class="c-detail">$155,000 &rarr; $212,991</span><span class="c-value">+$58K</span></div>
+      <div class="contrast-item"><span class="c-label">HR Administrator</span><span class="c-detail">$98,828 &rarr; $142,963</span><span class="c-value">+$44K</span></div>
+      <div class="contrast-item"><span class="c-label">Executive Administrator</span><span class="c-detail">$89,554 &rarr; $133,760</span><span class="c-value">+$44K</span></div>
+      <div class="contrast-item"><span class="c-label">New: Employee Experience Advisor</span><span class="c-detail">Created Aug 2024</span><span class="c-value">$127K</span></div>
+      <div class="contrast-item"><span class="c-label">ED 2-year contract</span><span class="c-detail">Approved Dec 30, 2025</span><span class="c-value">+3%/yr</span></div>
+      <div class="contrast-item c-zero"><span class="c-label">Admin positions eliminated</span><span class="c-value">0</span></div>
+      <div class="contrast-item c-zero"><span class="c-label">Admin raises rescinded</span><span class="c-value">0</span></div>
+    </div>
+    <div class="contrast-side side-green">
+      <h3>Who Lost (March 2026)</h3>
+      <div class="contrast-item"><span class="c-label">Frontline employees laid off</span><span class="c-value">61</span></div>
+      <div class="contrast-item"><span class="c-label">Frontline workforce cut</span><span class="c-value">38%</span></div>
+      <div class="contrast-item"><span class="c-label">Branches converted to unstaffed</span><span class="c-value">3</span></div>
+      <div class="contrast-item"><span class="c-label">Books &amp; materials budget cut</span><span class="c-value">$1.8M</span></div>
+    </div>
+  </div>
+  <div class="contrast-summary">The three executive raises alone total +$146K/year. The 61 layoffs were announced 11 weeks after the board approved the deficit budget and the ED's 2-year contract &mdash; at the same meeting.</div>
+</section>
+
+<footer class="footer">
+  All data from public records: TRL Final Budget documents, board meeting minutes, board meeting recordings (AV CaptureAll), and published news reporting. Financial data sourced from TRL General Fund budget documents (2019, 2021, 2023, 2025, 2026 Final Budgets). CPI data from BLS. Quotes verified against original board meeting recordings. Prepared March 2026.
+</footer>
+
+</div>
+
+<script>
+// Chart rendering utilities
+function getCtx(id) {
+  const canvas = document.getElementById(id);
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  return { ctx, w: rect.width, h: rect.height };
+}
+
+function fmt(n) {
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+  return '$' + n.toFixed(2);
+}
+function fmtAxis(n) {
+  if (n >= 1e6) { const m = n / 1e6; return '$' + (m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)) + 'M'; }
+  if (n === 0) return '$0';
+  return fmt(n);
+}
+
+function renderAllCharts() {
+const isMobile = window.innerWidth < 768;
+
+const C = {
+  navy: '#0a1628', navyMid: '#152238', navyLight: '#1e3050',
+  steel: '#6b7a8d', silver: '#a0adb8', fog: '#c8d1da', ice: '#e8ecf0', white: '#f4f6f8',
+  red: '#c43b3b', redGlow: '#e84545', redDim: 'rgba(196,59,59,0.15)',
+  amber: '#d4943a', amberDim: 'rgba(212,148,58,0.3)',
+  green: '#3a8a5c',
+  blue: '#4a7fb5', blueDim: 'rgba(74,127,181,0.15)',
+};
+
+// ─── EXHIBIT A: Revenue vs Expenditures ───
+(function() {
+  const { ctx, w, h } = getCtx('chartA');
+  // All data from TRL Final Budget documents (General Fund)
+  // 2017-2018: 2021 Final Budget actuals. 2019-2020: 2023 Final Budget actuals.
+  // 2021-2024: 2025 Final Budget. 2025-2026: budget projections.
+  const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+  // 2017-2024: Actuals from TRL budget docs. 2025: YE est from 2026 Final Budget. 2026: budget.
+  const revenue =      [22986972, 23711616, 24448997, 24669027, 25536273, 25931476, 26109656, 26884485, 27129350, 29002000];
+  const expenditures = [21911028, 22979157, 22979157, 23102946, 24687671, 24608630, 27057712, 28452840, 30432723, 32811283];
+  const salaries =     [11696498, 11682925, 11674836, 12330800, 11818000, 12193513, 13545748, 14290186, 15628985, 17102264];
+  const projStart = 8; // 2025
+
+  const pad = { t: 30, r: isMobile ? 16 : 60, b: 50, l: isMobile ? 50 : 70 };
+  const cw = w - pad.l - pad.r;
+  const ch = h - pad.t - pad.b;
+
+  const minV = 20e6;
+  const maxV = 34e6;
+  const range = maxV - minV;
+
+  function x(i) { return pad.l + (i / (years.length - 1)) * cw; }
+  function y(v) { return pad.t + ch - ((v - minV) / range) * ch; }
+
+  // Grid lines
+  ctx.strokeStyle = C.navyLight;
+  ctx.lineWidth = 1;
+  for (let v = 20e6; v <= 34e6; v += 2e6) {
+    ctx.beginPath();
+    ctx.moveTo(pad.l, y(v));
+    ctx.lineTo(w - pad.r, y(v));
+    ctx.stroke();
+    ctx.fillStyle = C.steel;
+    ctx.font = '10px IBM Plex Mono, monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(fmtAxis(v), pad.l - 8, y(v) + 3);
+  }
+
+  // Year labels
+  ctx.textAlign = 'center';
+  years.forEach((yr, i) => {
+    if (isMobile && i % 2 !== 0 && i !== years.length - 1) return;
+    ctx.fillStyle = C.steel;
+    ctx.font = (isMobile ? '9' : '10') + 'px IBM Plex Mono, monospace';
+    ctx.fillText(yr, x(i), h - pad.b + 20);
+    if (yr === 2025) {
+      ctx.fillStyle = C.steel; ctx.font = '8px IBM Plex Mono, monospace';
+      ctx.fillText('est.', x(i), h - pad.b + 30);
+    } else if (yr === 2026) {
+      ctx.fillStyle = C.steel; ctx.font = '8px IBM Plex Mono, monospace';
+      ctx.fillText('proj.', x(i), h - pad.b + 30);
+    }
+  });
+
+  // Deficit shading (where expenditures > revenue)
+  for (let i = 0; i < years.length - 1; i++) {
+    if (expenditures[i] > revenue[i]) {
+      ctx.fillStyle = C.redDim;
+      ctx.beginPath();
+      ctx.moveTo(x(i), y(revenue[i]));
+      ctx.lineTo(x(i+1), y(revenue[i+1]));
+      ctx.lineTo(x(i+1), y(expenditures[i+1]));
+      ctx.lineTo(x(i), y(expenditures[i]));
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+
+  // Salaries line (dashed)
+  ctx.strokeStyle = C.amber;
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  salaries.forEach((v, i) => {
+    if (i === 0) ctx.moveTo(x(i), y(v));
+    else ctx.lineTo(x(i), y(v));
+  });
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Revenue line
+  ctx.strokeStyle = C.blue;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  revenue.forEach((v, i) => {
+    if (i === 0) ctx.moveTo(x(i), y(v));
+    else ctx.lineTo(x(i), y(v));
+  });
+  ctx.stroke();
+
+  // Revenue dots
+  revenue.forEach((v, i) => {
+    ctx.fillStyle = C.blue;
+    ctx.beginPath();
+    ctx.arc(x(i), y(v), 3.5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Expenditures line
+  ctx.strokeStyle = C.red;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  expenditures.forEach((v, i) => {
+    if (i === 0) ctx.moveTo(x(i), y(v));
+    else ctx.lineTo(x(i), y(v));
+  });
+  ctx.stroke();
+
+  // Expenditure dots
+  expenditures.forEach((v, i) => {
+    ctx.fillStyle = C.red;
+    ctx.beginPath();
+    ctx.arc(x(i), y(v), 3.5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Crossover annotation at 2023 (index 6)
+  const cx2023 = x(6);
+  const crossY = y(expenditures[6]);
+
+  // Text first (above the line)
+  ctx.fillStyle = C.redGlow;
+  ctx.font = '600 11px IBM Plex Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('CROSSOVER', cx2023, crossY - 72);
+  ctx.font = '10px IBM Plex Mono, monospace';
+  ctx.fillStyle = C.silver;
+  const gap23 = expenditures[6] - revenue[6];
+  ctx.fillText(fmt(gap23) + ' gap', cx2023, crossY - 60);
+
+  // Dotted line below the text, connecting to the data point
+  ctx.strokeStyle = C.redGlow;
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  ctx.moveTo(cx2023, crossY - 52);
+  ctx.lineTo(cx2023, crossY - 5);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // 2026 gap annotation + endpoint labels
+  const last = years.length - 1;
+  const gap26 = expenditures[last] - revenue[last];
+  const midY26 = (y(revenue[last]) + y(expenditures[last])) / 2;
+  if (isMobile) {
+    // Stack vertically, right-aligned to the dot
+    ctx.fillStyle = C.redGlow;
+    ctx.font = '600 10px IBM Plex Mono, monospace';
+    ctx.textAlign = 'right';
+    ctx.textAlign = 'center';
+    ctx.fillText(fmt(gap26), x(last), midY26 - 2);
+    ctx.fillText('gap', x(last), midY26 + 12);
+  } else {
+    ctx.fillStyle = C.redGlow;
+    ctx.font = '600 13px IBM Plex Mono, monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(fmt(gap26), x(last) + 10, midY26 - 2);
+    ctx.fillText('gap', x(last) + 10, midY26 + 14);
+
+    // Value labels at endpoints (desktop only)
+    ctx.font = '10px IBM Plex Mono, monospace';
+    ctx.fillStyle = C.blue;
+    ctx.fillText(fmt(revenue[last]), x(last) + 10, y(revenue[last]) + 4);
+    ctx.fillStyle = C.red;
+    ctx.fillText(fmt(expenditures[last]), x(last) + 10, y(expenditures[last]) + 4);
+    ctx.fillStyle = C.amber;
+    ctx.fillText(fmt(salaries[last]), x(last) + 10, y(salaries[last]) + 4);
+  }
+})();
+
+// ─── EXHIBIT C: Fund Balance ───
+(function() {
+  const { ctx, w, h } = getCtx('chartC');
+  // Combined fund ending balances from TRL Final Budget documents
+  // 2017-2019: 2021 Final Budget, Actual. 2020-2023: 2026 Final Budget, Actual.
+  // All actuals from TRL budget documents and budget adjustments. 2026 only projection.
+  // 2024: Actual from 2025 Budget Adjustment (Res 25-001). 2025: Actual from 2026 Budget Adjustment (Res 26-001).
+  const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+  const balance = [14844623, 16587482, 18457245, 19027215, 19768961, 18904276, 14449444, 14483485, 9441497, 7244070];
+  // For 30% threshold, use GF revenue
+  const revenue = [22986972, 23711616, 24448997, 24669027, 25536273, 25931476, 26109656, 26973750, 28104200, 29002000];
+  const threshold = revenue.map(r => r * 0.30);
+
+  const pad = { t: 30, r: isMobile ? 40 : 60, b: isMobile ? 74 : 100, l: isMobile ? 50 : 70 };
+  const cw = w - pad.l - pad.r;
+  const ch = h - pad.t - pad.b;
+  const maxV = 22e6;
+  const minV = 0;
+
+  function x(i) { return pad.l + (i / (years.length - 1)) * cw; }
+  function y(v) { return pad.t + ch - ((v - minV) / (maxV - minV)) * ch; }
+
+  // Grid
+  ctx.strokeStyle = C.navyLight;
+  ctx.lineWidth = 1;
+  for (let v = 0; v <= 22e6; v += 4e6) {
+    ctx.beginPath();
+    ctx.moveTo(pad.l, y(v));
+    ctx.lineTo(w - pad.r, y(v));
+    ctx.stroke();
+    ctx.fillStyle = C.steel;
+    ctx.font = '10px IBM Plex Mono, monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(fmtAxis(v), pad.l - 8, y(v) + 3);
+  }
+
+  // Year labels
+  ctx.textAlign = 'center';
+  years.forEach((yr, i) => {
+    if (isMobile && i % 2 !== 0 && i !== years.length - 1) return;
+    ctx.fillStyle = C.steel;
+    ctx.font = (isMobile ? '9' : '11') + 'px IBM Plex Mono, monospace';
+    ctx.fillText(yr, x(i), h - pad.b + 20);
+    if (yr === 2026) {
+      ctx.fillStyle = C.steel; ctx.font = '8px IBM Plex Mono, monospace';
+      ctx.fillText('proj.', x(i), h - pad.b + 30);
+    }
+  });
+
+  // 30% threshold line (dashed)
+  ctx.strokeStyle = C.red;
+  ctx.lineWidth = 1;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  threshold.forEach((v, i) => {
+    if (i === 0) ctx.moveTo(x(i), y(v));
+    else ctx.lineTo(x(i), y(v));
+  });
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Label the threshold
+  ctx.fillStyle = C.red;
+  ctx.font = (isMobile ? '8' : '10') + 'px IBM Plex Mono, monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('30% policy minimum', x(0) + 4, y(threshold[0]) - 6);
+
+  // Area fill under balance
+  ctx.fillStyle = 'rgba(74,127,181,0.15)';
+  ctx.beginPath();
+  ctx.moveTo(x(0), y(0));
+  balance.forEach((v, i) => ctx.lineTo(x(i), y(v)));
+  ctx.lineTo(x(years.length - 1), y(0));
+  ctx.closePath();
+  ctx.fill();
+
+  // Balance line
+  ctx.strokeStyle = C.blue;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  balance.forEach((v, i) => {
+    if (i === 0) ctx.moveTo(x(i), y(v));
+    else ctx.lineTo(x(i), y(v));
+  });
+  ctx.stroke();
+
+  // Dots with values
+  function fmtRound(n) { return '$' + Math.round(n / 1e6) + 'M'; }
+  balance.forEach((v, i) => {
+    ctx.fillStyle = v < threshold[i] ? C.red : C.blue;
+    ctx.beginPath();
+    ctx.arc(x(i), y(v), isMobile ? 3 : 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // On mobile, only label first, peak, last, and breach point
+    const isKey = i === 0 || i === years.length - 1 || i === 4 || v < threshold[i];
+    if (isMobile && !isKey) return;
+
+    ctx.font = '600 ' + (isMobile ? '9' : '11') + 'px IBM Plex Mono, monospace';
+    ctx.fillStyle = v < threshold[i] ? C.redGlow : C.ice;
+    ctx.textAlign = 'center';
+    const label = fmt(v);
+    const labelBelow = (i === 0 || i === years.length - 1);
+    ctx.fillText(label, x(i), labelBelow ? y(v) + 18 : y(v) - 12);
+  });
+
+  // Breach annotation at 2026
+  const lastC = years.length - 1;
+  if (balance[lastC] < threshold[lastC]) {
+    ctx.fillStyle = C.redGlow;
+    ctx.font = '600 10px IBM Plex Sans, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('POLICY BREACH', x(lastC), y(balance[lastC]) + 30);
+  }
+
+  // Building fund spend-down bracket (2020-2024 = indices 3-7)
+  const bStart = 3; // 2020
+  const bEnd = 7;   // 2024
+  const bY = h - pad.b + (isMobile ? 34 : 48);
+
+  ctx.strokeStyle = C.amber;
+  ctx.lineWidth = 1;
+  // Left tick
+  ctx.beginPath();
+  ctx.moveTo(x(bStart), bY - 6);
+  ctx.lineTo(x(bStart), bY);
+  // Horizontal line
+  ctx.lineTo(x(bEnd), bY);
+  // Right tick
+  ctx.lineTo(x(bEnd), bY - 6);
+  ctx.stroke();
+
+  // Label
+  ctx.fillStyle = C.amber;
+  ctx.font = (isMobile ? '8' : '10') + 'px IBM Plex Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('$4.9M building fund spend-down', (x(bStart) + x(bEnd)) / 2, bY + 14);
+
+  // Salary expansion bracket (2023-2026 = indices 6-9)
+  const sStart = 6; // 2023
+  const sEnd = 9;   // 2026
+  const sY = bY + (isMobile ? 24 : 26);
+
+  ctx.strokeStyle = C.redGlow;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(x(sStart), sY - 6);
+  ctx.lineTo(x(sStart), sY);
+  ctx.lineTo(x(sEnd), sY);
+  ctx.lineTo(x(sEnd), sY - 6);
+  ctx.stroke();
+
+  ctx.fillStyle = C.redGlow;
+  ctx.font = (isMobile ? '8' : '10') + 'px IBM Plex Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('+$5.3M salary expansion', (x(sStart) + x(sEnd)) / 2, sY + 14);
+})();
+
+// ─── EXHIBIT D: The Two Drivers ───
+(function() {
+  const { ctx, w, h } = getCtx('chartD2');
+  const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+  const salaries = [11696498, 11682925, 11674836, 12330800, 11818000, 12193513, 13545748, 14290186, 15628985, 17102264];
+  const revenue =  [22986972, 23711616, 24448997, 24669027, 25536273, 25931476, 26109656, 26884485, 27129350, 29002000];
+  // Building Fund expenditures from TRL budget documents (Budget in a Page, Building Fund sections)
+  // 2017-2018: 2021 Final Budget. 2019-2020: 2023 Final Budget. 2021-2023: 2025 Final Budget.
+  // 2024: 2026 Final Budget actual. 2025: 2026 YE est. 2026: budget.
+  const buildingExp = [427988, 406790, 348464, 557251, 937315, 1113145, 1522314, 2955336, 1083500, 100000];
+
+  const salPct = salaries.map((s, i) => s / revenue[i] * 100);
+  const bldgPct = buildingExp.map((b, i) => b / revenue[i] * 100);
+  const combinedPct = salPct.map((s, i) => s + bldgPct[i]);
+
+  const pad = { t: 40, r: 60, b: 50, l: 60 };
+  const cw = w - pad.l - pad.r;
+  const ch = h - pad.t - pad.b;
+  const minV = 44, maxV = 68;
+
+  function x(i) { return pad.l + (i / (years.length - 1)) * cw; }
+  function y(v) { return pad.t + ch - ((v - minV) / (maxV - minV)) * ch; }
+
+  // Grid
+  ctx.strokeStyle = C.navyLight; ctx.lineWidth = 1;
+  for (let v = 44; v <= 68; v += 4) {
+    ctx.beginPath(); ctx.moveTo(pad.l, y(v)); ctx.lineTo(w - pad.r, y(v)); ctx.stroke();
+    ctx.fillStyle = C.steel; ctx.font = '10px IBM Plex Mono, monospace'; ctx.textAlign = 'right';
+    ctx.fillText(v + '%', pad.l - 8, y(v) + 3);
+  }
+
+  // Year labels
+  ctx.textAlign = 'center';
+  years.forEach((yr, i) => {
+    if (isMobile && i % 2 !== 0 && i !== years.length - 1) return;
+    ctx.fillStyle = C.steel; ctx.font = (isMobile ? '9' : '10') + 'px IBM Plex Mono, monospace';
+    ctx.fillText(yr, x(i), h - pad.b + 20);
+    if (yr === 2025) {
+      ctx.fillStyle = C.steel; ctx.font = '8px IBM Plex Mono, monospace';
+      ctx.fillText('est.', x(i), h - pad.b + 30);
+    } else if (yr === 2026) {
+      ctx.fillStyle = C.steel; ctx.font = '8px IBM Plex Mono, monospace';
+      ctx.fillText('proj.', x(i), h - pad.b + 30);
+    }
+  });
+
+  // Salary area (minV to salPct)
+  ctx.fillStyle = 'rgba(232,69,69,0.20)';
+  ctx.beginPath();
+  ctx.moveTo(x(0), y(minV));
+  salPct.forEach((v, i) => ctx.lineTo(x(i), y(v)));
+  ctx.lineTo(x(years.length - 1), y(minV));
+  ctx.closePath();
+  ctx.fill();
+
+  // Building fund area (band: salPct to combinedPct)
+  ctx.fillStyle = 'rgba(212,148,58,0.30)';
+  ctx.beginPath();
+  salPct.forEach((v, i) => {
+    if (i === 0) ctx.moveTo(x(i), y(v));
+    else ctx.lineTo(x(i), y(v));
+  });
+  for (let i = years.length - 1; i >= 0; i--) {
+    ctx.lineTo(x(i), y(combinedPct[i]));
+  }
+  ctx.closePath();
+  ctx.fill();
+
+  // Salary line (bold, primary)
+  ctx.strokeStyle = C.redGlow; ctx.lineWidth = 3;
+  ctx.beginPath();
+  salPct.forEach((v, i) => { if (i === 0) ctx.moveTo(x(i), y(v)); else ctx.lineTo(x(i), y(v)); });
+  ctx.stroke();
+
+  // Top line (combined)
+  ctx.strokeStyle = C.amber; ctx.lineWidth = 2;
+  ctx.beginPath();
+  combinedPct.forEach((v, i) => { if (i === 0) ctx.moveTo(x(i), y(v)); else ctx.lineTo(x(i), y(v)); });
+  ctx.stroke();
+
+  // Dots along salary line
+  const last = years.length - 1;
+  salPct.forEach((v, i) => {
+    ctx.fillStyle = C.redGlow;
+    ctx.beginPath(); ctx.arc(x(i), y(v), isMobile ? 3 : 4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.white;
+    ctx.beginPath(); ctx.arc(x(i), y(v), 1.5, 0, Math.PI * 2); ctx.fill();
+  });
+
+  // Building peak dot (2024 = index 7)
+  const peakIdx = 7;
+  ctx.fillStyle = C.amber;
+  ctx.beginPath(); ctx.arc(x(peakIdx), y(combinedPct[peakIdx]), 5, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = C.white;
+  ctx.beginPath(); ctx.arc(x(peakIdx), y(combinedPct[peakIdx]), 2, 0, Math.PI * 2); ctx.fill();
+
+  // Salary label — centered under the 2026 data point
+  ctx.fillStyle = C.redGlow; ctx.font = '600 12px IBM Plex Mono, monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(salPct[last].toFixed(0) + '% Salaries', x(last), y(salPct[last]) + 20);
+
+  // Peak annotation
+  ctx.fillStyle = C.amber; ctx.font = '600 12px IBM Plex Mono, monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(bldgPct[peakIdx].toFixed(0) + '% Building', x(peakIdx), y(combinedPct[peakIdx]) - 12);
+})();
+
+// ─── EXHIBIT E: Fewer People, More Money ───
+(function() {
+  const { ctx, w, h } = getCtx('chartE1');
+  const yrs = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+  const fte = [253.43, 251.98, 249.73, 249.50, 232.45, 227.73, 227.03, 228.43, 229.28];
+  const sal = [11696498, 11682925, 11674836, 12330800, 11818000, 12193513, 13545748, 14290186, 15628985];
+
+  const pad = { t: 50, r: 60, b: 50, l: 60 };
+  const cw = w - pad.l - pad.r;
+  const ch = h - pad.t - pad.b;
+
+  // Left axis: FTE (218-258)
+  const fteMin = 218, fteMax = 258;
+  // Right axis: Salary ($10M-$17M) — aligned so the lines cross visually around 2022
+  const salMin = 9.5e6, salMax = 16.5e6;
+
+  function x(i) { return pad.l + (i / (yrs.length - 1)) * cw; }
+  function yFte(v) { return pad.t + ch - ((v - fteMin) / (fteMax - fteMin)) * ch; }
+  function ySal(v) { return pad.t + ch - ((v - salMin) / (salMax - salMin)) * ch; }
+
+  // Subtle grid
+  ctx.strokeStyle = C.navyLight; ctx.lineWidth = 1;
+  for (let v = 220; v <= 255; v += 10) {
+    ctx.beginPath(); ctx.moveTo(pad.l, yFte(v)); ctx.lineTo(w - pad.r, yFte(v)); ctx.stroke();
+  }
+
+  // Left axis labels (FTE) — minimal
+  ctx.fillStyle = C.blue; ctx.font = '10px IBM Plex Mono, monospace'; ctx.textAlign = 'right';
+  for (let v = 220; v <= 250; v += 10) {
+    ctx.fillText(v, pad.l - 8, yFte(v) + 3);
+  }
+
+  // Right axis labels (Salary) — minimal
+  ctx.fillStyle = C.redGlow; ctx.font = '10px IBM Plex Mono, monospace'; ctx.textAlign = 'left';
+  for (let v = 10e6; v <= 16e6; v += 2e6) {
+    ctx.fillText('$' + (v / 1e6).toFixed(0) + 'M', w - pad.r + 8, ySal(v) + 3);
+  }
+
+  // Year labels
+  ctx.textAlign = 'center';
+  yrs.forEach((yr, i) => {
+    if (isMobile && i % 2 !== 0 && i !== yrs.length - 1) return;
+    ctx.fillStyle = C.steel; ctx.font = (isMobile ? '9' : '10') + 'px IBM Plex Mono, monospace';
+    ctx.fillText(yr, x(i), h - pad.b + 20);
+  });
+
+  // FTE line
+  ctx.strokeStyle = C.blue; ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  fte.forEach((v, i) => { if (i === 0) ctx.moveTo(x(i), yFte(v)); else ctx.lineTo(x(i), yFte(v)); });
+  ctx.stroke();
+
+  // Salary line
+  ctx.strokeStyle = C.redGlow; ctx.lineWidth = 3;
+  ctx.beginPath();
+  sal.forEach((v, i) => { if (i === 0) ctx.moveTo(x(i), ySal(v)); else ctx.lineTo(x(i), ySal(v)); });
+  ctx.stroke();
+
+  // Dots — first and last only, for cleanliness
+  const last = yrs.length - 1;
+  [0, last].forEach(i => {
+    ctx.fillStyle = C.blue;
+    ctx.beginPath(); ctx.arc(x(i), yFte(fte[i]), 5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.white;
+    ctx.beginPath(); ctx.arc(x(i), yFte(fte[i]), 2, 0, Math.PI * 2); ctx.fill();
+
+    ctx.fillStyle = C.redGlow;
+    ctx.beginPath(); ctx.arc(x(i), ySal(sal[i]), 5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.white;
+    ctx.beginPath(); ctx.arc(x(i), ySal(sal[i]), 2, 0, Math.PI * 2); ctx.fill();
+  });
+
+  // FTE labels at endpoints — above dots
+  ctx.fillStyle = C.blue; ctx.font = '600 13px IBM Plex Mono, monospace'; ctx.textAlign = 'center';
+  ctx.fillText('253 positions', x(0), yFte(fte[0]) - 14);
+  ctx.fillText('229 positions', x(last), yFte(fte[last]) + (isMobile ? 28 : 22));
+
+  // Salary labels at endpoints — below dots
+  ctx.fillStyle = C.redGlow; ctx.font = '600 13px IBM Plex Mono, monospace';
+  ctx.fillText('$11.7M', x(0), ySal(sal[0]) + 22);
+  ctx.textAlign = isMobile ? 'left' : 'center';
+  ctx.fillText('$15.6M', isMobile ? x(last) + 10 : x(last), ySal(sal[last]) + (isMobile ? 6 : 22));
+  ctx.textAlign = 'center';
+
+  // Summary callout — top center, separated vertically
+  const midX = (x(0) + x(last)) / 2;
+  ctx.font = '600 ' + (isMobile ? '12' : '15') + 'px IBM Plex Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = C.blue;
+  ctx.fillText('9% fewer positions', midX, pad.t - 18);
+  ctx.fillStyle = C.redGlow;
+  ctx.fillText('34% more salary spending', midX, pad.t - 2);
+})();
+
+// ─── EXHIBIT F: The Structural Mismatch ───
+(function() {
+  const { ctx, w, h } = getCtx('chartE');
+  const yrs = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+
+  // CPI-U Annual Averages, Seattle-Tacoma-Bellevue (BLS Series CUURS49DSA0)
+  // Retrieved 2026-03-19 via BLS Public Data API v2
+  const cpi = [262.668, 271.089, 277.984, 282.693, 295.560, 322.167, 340.845, 353.488, 362.039];
+
+  // Salary per FTE (General Fund salary actuals / budgeted FTE from Position Inventory)
+  // FTE source: Position Inventory tables in each Final Budget PDF
+  // Salary source: GF Expenditure tables (same as Exhibit A)
+  const salPerFte = [46135, 46364, 46751, 49423, 50842, 53544, 59667, 62561, 68166];
+
+  // Revenue (same as Exhibit A, 2017-2025)
+  const rev = [22986972, 23711616, 24448997, 24669027, 25536273, 25931476, 26109656, 26884485, 27129350];
+
+  // Index to 2017 = 100
+  const cpiIdx = cpi.map(v => v / cpi[0] * 100);
+  const salIdx = salPerFte.map(v => v / salPerFte[0] * 100);
+  const revIdx = rev.map(v => v / rev[0] * 100);
+
+  const pad = { t: 40, r: isMobile ? 80 : 110, b: 50, l: 50 };
+  const cw = w - pad.l - pad.r;
+  const ch = h - pad.t - pad.b;
+  const minV = 95, maxV = 155;
+
+  function x(i) { return pad.l + (i / (yrs.length - 1)) * cw; }
+  function y(v) { return pad.t + ch - ((v - minV) / (maxV - minV)) * ch; }
+
+  // Grid
+  ctx.strokeStyle = C.navyLight; ctx.lineWidth = 1;
+  for (let v = 100; v <= 150; v += 10) {
+    ctx.beginPath(); ctx.moveTo(pad.l, y(v)); ctx.lineTo(w - pad.r, y(v)); ctx.stroke();
+    ctx.fillStyle = C.steel; ctx.font = '10px IBM Plex Mono, monospace'; ctx.textAlign = 'right';
+    ctx.fillText(v, pad.l - 8, y(v) + 3);
+  }
+
+  // Baseline at 100
+  ctx.strokeStyle = C.slate; ctx.lineWidth = 1;
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.moveTo(pad.l, y(100)); ctx.lineTo(w - pad.r, y(100)); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Year labels
+  ctx.textAlign = 'center';
+  yrs.forEach((yr, i) => {
+    if (isMobile && i % 2 !== 0 && i !== yrs.length - 1) return;
+    ctx.fillStyle = C.steel; ctx.font = (isMobile ? '9' : '10') + 'px IBM Plex Mono, monospace';
+    ctx.fillText(yr, x(i), h - pad.b + 20);
+  });
+
+  // Shaded gap between salary/FTE and revenue
+  ctx.fillStyle = 'rgba(232,69,69,0.08)';
+  ctx.beginPath();
+  revIdx.forEach((v, i) => { if (i === 0) ctx.moveTo(x(i), y(v)); else ctx.lineTo(x(i), y(v)); });
+  for (let i = yrs.length - 1; i >= 0; i--) ctx.lineTo(x(i), y(salIdx[i]));
+  ctx.closePath();
+  ctx.fill();
+
+  // CPI line (dashed gray)
+  ctx.strokeStyle = C.steel; ctx.lineWidth = 2;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  cpiIdx.forEach((v, i) => { if (i === 0) ctx.moveTo(x(i), y(v)); else ctx.lineTo(x(i), y(v)); });
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Revenue line (green)
+  ctx.strokeStyle = C.green; ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  revIdx.forEach((v, i) => { if (i === 0) ctx.moveTo(x(i), y(v)); else ctx.lineTo(x(i), y(v)); });
+  ctx.stroke();
+
+  // Salary/FTE line (red, bold)
+  ctx.strokeStyle = C.redGlow; ctx.lineWidth = 3;
+  ctx.beginPath();
+  salIdx.forEach((v, i) => { if (i === 0) ctx.moveTo(x(i), y(v)); else ctx.lineTo(x(i), y(v)); });
+  ctx.stroke();
+
+  // Dots along salary line
+  const last = yrs.length - 1;
+  salIdx.forEach((v, i) => {
+    ctx.fillStyle = C.redGlow;
+    ctx.beginPath(); ctx.arc(x(i), y(v), isMobile ? 3 : 4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.white;
+    ctx.beginPath(); ctx.arc(x(i), y(v), 1.5, 0, Math.PI * 2); ctx.fill();
+  });
+
+  // Endpoint dots for revenue and CPI
+  [[revIdx, C.green], [cpiIdx, C.steel]].forEach(([data, color]) => {
+    ctx.fillStyle = color;
+    ctx.beginPath(); ctx.arc(x(last), y(data[last]), 4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.white;
+    ctx.beginPath(); ctx.arc(x(last), y(data[last]), 1.5, 0, Math.PI * 2); ctx.fill();
+  });
+
+  // Right-side labels
+  const labelX = x(last) + 10;
+  ctx.textAlign = 'left';
+
+  ctx.fillStyle = C.redGlow; ctx.font = '600 ' + (isMobile ? '10' : '12') + 'px IBM Plex Sans, sans-serif';
+  ctx.fillText('+' + (salIdx[last] - 100).toFixed(0) + '% Salary/FTE', labelX, y(salIdx[last]) + 4);
+
+  ctx.fillStyle = C.steel; ctx.font = '600 ' + (isMobile ? '9' : '11') + 'px IBM Plex Sans, sans-serif';
+  ctx.fillText('+' + (cpiIdx[last] - 100).toFixed(0) + '% CPI', labelX, y(cpiIdx[last]) + 4);
+
+  ctx.fillStyle = C.green; ctx.font = '600 ' + (isMobile ? '9' : '11') + 'px IBM Plex Sans, sans-serif';
+  ctx.fillText('+' + (revIdx[last] - 100).toFixed(0) + '% Revenue', labelX, y(revIdx[last]) + 4);
+})();
+
+// ─── EXHIBIT G: Levy Rate ───
+(function() {
+  const { ctx, w, h } = getCtx('chartD');
+  const years = [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2026];
+  const rates = [0.40947, 0.39926, 0.382151, 0.362124, 0.340468, 0.323658, 0.287998, 0.236007, 0.234024, 0.224404];
+  const max_rate = 0.50;
+
+  const pad = { t: 30, r: 60, b: 50, l: 70 };
+  const cw = w - pad.l - pad.r;
+  const ch = h - pad.t - pad.b;
+  const minV = 0.18;
+  const maxV = 0.55;
+
+  function x(i) { return pad.l + (i / (years.length - 1)) * cw; }
+  function y(v) { return pad.t + ch - ((v - minV) / (maxV - minV)) * ch; }
+
+  // Grid
+  ctx.strokeStyle = C.navyLight;
+  ctx.lineWidth = 1;
+  for (let v = 0.20; v <= 0.55; v += 0.05) {
+    ctx.beginPath();
+    ctx.moveTo(pad.l, y(v));
+    ctx.lineTo(w - pad.r, y(v));
+    ctx.stroke();
+    ctx.fillStyle = C.steel;
+    ctx.font = '10px IBM Plex Mono, monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText('$' + v.toFixed(2), pad.l - 8, y(v) + 3);
+  }
+
+  // Year labels
+  ctx.textAlign = 'center';
+  years.forEach((yr, i) => {
+    if (isMobile && i % 2 !== 0 && i !== years.length - 1) return;
+    ctx.fillStyle = C.steel;
+    ctx.font = (isMobile ? '9' : '10') + 'px IBM Plex Mono, monospace';
+    ctx.fillText(yr, x(i), h - pad.b + 20);
+  });
+
+  // Maximum line
+  ctx.strokeStyle = C.red;
+  ctx.lineWidth = 1;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(pad.l, y(max_rate));
+  ctx.lineTo(w - pad.r, y(max_rate));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = C.red;
+  ctx.font = '600 11px IBM Plex Sans, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('STATUTORY MAXIMUM: $0.50', w - pad.r, y(max_rate) - 8);
+
+  // Gap shading between rate and maximum
+  const gapGradient = 'rgba(196,59,59,0.06)';
+  ctx.fillStyle = gapGradient;
+  ctx.beginPath();
+  ctx.moveTo(x(0), y(max_rate));
+  ctx.lineTo(x(years.length - 1), y(max_rate));
+  rates.forEach((v, i) => ctx.lineTo(x(years.length - 1 - i), y(rates[years.length - 1 - i])));
+  ctx.closePath();
+  ctx.fill();
+
+  // Unrealized revenue label
+  ctx.fillStyle = 'rgba(196,59,59,0.4)';
+  ctx.font = '600 13px IBM Plex Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('UNREALIZED REVENUE', w / 2, y(0.40));
+  ctx.font = '11px IBM Plex Sans, sans-serif';
+  ctx.fillText('No levy lid lift attempted since 2009', w / 2, y(0.40) + 18);
+
+  // Rate line
+  ctx.strokeStyle = C.blue;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  rates.forEach((v, i) => {
+    if (i === 0) ctx.moveTo(x(i), y(v));
+    else ctx.lineTo(x(i), y(v));
+  });
+  ctx.stroke();
+
+  // Dots
+  rates.forEach((v, i) => {
+    ctx.fillStyle = C.blue;
+    ctx.beginPath();
+    ctx.arc(x(i), y(v), 3.5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Endpoint labels
+  ctx.font = '600 11px IBM Plex Mono, monospace';
+  ctx.fillStyle = C.ice;
+  ctx.textAlign = 'left';
+  ctx.fillText('$' + rates[0].toFixed(3), x(0) + 8, y(rates[0]) - 8);
+  ctx.fillStyle = C.redGlow;
+  ctx.fillText('$' + rates[rates.length-1].toFixed(3), x(rates.length-1) + 8, y(rates[rates.length-1]) + 16);
+
+  // Decline percentage
+  const decline = ((rates[0] - rates[rates.length-1]) / rates[0] * 100).toFixed(0);
+  ctx.fillStyle = C.red;
+  ctx.font = '600 12px IBM Plex Mono, monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('-' + decline + '%', x(rates.length - 1), y(rates[rates.length-1]) + 30);
+})();
+} // end renderAllCharts
+
+renderAllCharts();
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(renderAllCharts, 150);
+});
+</script>
+</body>
+</html>

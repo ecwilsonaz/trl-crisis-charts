@@ -17,17 +17,6 @@ Eight exhibits built from public records tell the story:
 - **Exhibit G** — The levy rate option never pursued (current rate is less than half the statutory max)
 - **Exhibit H** — Who gained, who lost: every executive kept their raise, every layoff was frontline
 
-## Key Findings
-
-| Metric | Value |
-|---|---|
-| 2026 budget gap | $3.8M |
-| Frontline layoffs | 61 (38% of frontline staff) |
-| Fund balance decline (2022–2026) | $12.2M |
-| Executive Director salary increase (2023–2026) | +37% ($155K to $213K) |
-| Admin positions eliminated | 0 |
-| Admin raises rescinded | 0 |
-
 ## Sources
 
 All data comes from public records:

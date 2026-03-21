@@ -1,0 +1,4 @@
+node_modules/
+generate-og-image.mjs
+package.json
+package-lock.json

@@ -100,6 +100,30 @@ body {
   letter-spacing: 0.5px;
 }
 
+/* INTRO */
+.intro {
+  max-width: 700px;
+  margin-bottom: 48px;
+}
+
+.intro p {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--fog);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+/* READING GUIDE */
+.reading-guide {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--steel);
+  margin-bottom: 48px;
+  padding-top: 8px;
+}
+
 /* SECTION HEADINGS — 8px vertical rhythm scale */
 .exhibit {
   margin-bottom: 64px;
@@ -354,6 +378,13 @@ body {
   margin-right: auto;
 }
 
+.footer p {
+  margin-bottom: 8px;
+}
+.footer p:last-child {
+  margin-bottom: 0;
+}
+
 /* CHART LEGEND */
 .legend {
   display: flex;
@@ -391,6 +422,8 @@ body {
   .header { padding-bottom: 28px; margin-bottom: 40px; }
   .header h1 { font-size: 26px; }
   .header .subtitle { font-size: 15px; }
+
+  .intro p { font-size: 14px; line-height: 1.7; }
 
   .metrics-row { grid-template-columns: repeat(2, 1fr); }
   .metric-card .metric-value { font-size: 22px; }
@@ -461,6 +494,11 @@ body {
   <div class="source-line">Sources: TRL Final Budget documents (trl.org/budget), Board Meeting Minutes &amp; Recordings &mdash; All public records</div>
 </header>
 
+<div class="intro">
+  <p>Timberland Regional Library serves five counties across rural western Washington &mdash; roughly 30 branches and 250 employees providing library services to half a million residents. In March 2026, TRL laid off 61 frontline staff, cut 38% of its frontline workforce, and converted three branches to unstaffed self-service. Leadership called it an unavoidable response to financial pressure.</p>
+  <p>Public budget documents and board meeting recordings tell a different story. The eight exhibits below trace, year by year, how the district spent down its reserves, who benefited, and what options were never pursued.</p>
+</div>
+
 <!-- KEY METRICS -->
 <div class="metrics-row">
   <div class="metric-card metric-red">
@@ -485,11 +523,13 @@ body {
   </div>
 </div>
 
+<div class="reading-guide">Exhibits A&ndash;C establish the crisis. D&ndash;F diagnose what caused it. G shows a revenue option leadership never pursued. H shows who bore the consequences.</div>
+
 <!-- EXHIBIT A: Revenue vs Expenditures -->
 <section class="exhibit">
   <div class="exhibit-label">Exhibit A</div>
   <h2>The Scissors: Revenue vs. Expenditures</h2>
-  <div class="exhibit-desc">For years, revenue comfortably exceeded expenditures. In 2023, expenditures crossed above revenue for the first time. The gap widened every year while leadership told the board "we're in the black." All data from TRL General Fund budget documents.</div>
+  <div class="exhibit-desc">For years, revenue comfortably exceeded expenditures. In 2023, expenditures crossed above revenue for the first time. The gap widened every year while leadership told the board "we're in the black." All data from TRL General Fund budget documents &mdash; the district's main operating account.</div>
   <div class="chart-frame">
     <div class="legend">
       <div class="legend-item"><div class="legend-swatch" style="background: var(--blue-accent)"></div> Revenue</div>
@@ -547,10 +587,10 @@ body {
 <section class="exhibit">
   <div class="exhibit-label">Exhibit C</div>
   <h2>Fund Balance Collapse</h2>
-  <div class="exhibit-desc">Combined fund balances grew steadily from 2017 to 2020, peaking near $19.3M. The board then lowered its fund balance policy threshold, freeing up $4.9M for building projects. That cushion was spent down on facilities while salaries simultaneously exploded &mdash; a double hit that dropped reserves 60% by 2026.</div>
+  <div class="exhibit-desc">Combined fund balances grew steadily from 2017 to 2020, peaking near $19.3M. The board then lowered its minimum reserve requirement, freeing up $4.9M for building projects. That cushion was spent down on facilities while salaries simultaneously exploded &mdash; a double hit that dropped reserves 60% by 2026.</div>
   <div class="chart-frame">
     <canvas id="chartC" style="height: 42vh"></canvas>
-    <div class="chart-note">Dashed line = 30% of revenue (policy-required minimum beginning fund balance)</div>
+    <div class="chart-note">Dashed line = 30% of revenue (board-required minimum reserve)</div>
   </div>
 </section>
 
@@ -573,7 +613,7 @@ body {
 <section class="exhibit">
   <div class="exhibit-label">Exhibit E</div>
   <h2>Fewer People, More Money</h2>
-  <div class="exhibit-desc">TRL's budgeted workforce shrank from 253 FTE in 2017 to 230 in 2025 &mdash; a 9% decline. During the same period, total salary expenditures grew 34%, from $11.7M to $15.6M. The entire salary increase was per-person cost growth, not headcount. TRL hired 133 people since 2019, but that was turnover replacement &mdash; total positions went down.</div>
+  <div class="exhibit-desc">TRL's budgeted workforce shrank from 253 full-time-equivalent positions (FTE) in 2017 to 230 in 2025 &mdash; a 9% decline. During the same period, total salary expenditures grew 34%, from $11.7M to $15.6M. The entire salary increase was per-person cost growth, not headcount. TRL hired 133 people since 2019, but that was turnover replacement &mdash; total positions went down.</div>
   <div class="chart-frame">
     <div class="legend">
       <div class="legend-item"><div class="legend-swatch" style="background: var(--blue-accent)"></div> Budgeted Positions (left axis)</div>
@@ -588,7 +628,7 @@ body {
 <section class="exhibit">
   <div class="exhibit-label">Exhibit F</div>
   <h2>The Structural Mismatch</h2>
-  <div class="exhibit-desc">Revenue is structurally capped by the 1% levy lid and cannot keep pace with inflation. Per-employee salary costs tracked Seattle-area inflation through 2023, then pulled sharply ahead via Collective Bargaining Agreement increases, reclassifications, and executive raises. The growing gap between costs and revenue capacity is the crisis leadership never addressed.</div>
+  <div class="exhibit-desc">Revenue is structurally capped by Washington's 1% property tax lid &mdash; a state law that limits annual levy increases to 1% regardless of inflation &mdash; and cannot keep pace with rising costs. Per-employee salary costs tracked Seattle-area inflation through 2023, then pulled sharply ahead via union contract increases, job reclassifications (upgrading position titles and pay grades), and executive raises. The growing gap between costs and revenue capacity is the crisis leadership never addressed.</div>
   <div class="chart-frame">
     <div class="legend">
       <div class="legend-item"><div class="legend-swatch" style="background: var(--red-glow)"></div> Salary per FTE</div>
@@ -596,7 +636,7 @@ body {
       <div class="legend-item"><div class="legend-swatch" style="background: var(--green)"></div> Revenue</div>
     </div>
     <canvas id="chartE" style="height: 42vh"></canvas>
-    <div class="chart-note">All indexed to 2017 = 100. CPI-U annual averages from BLS Series CUURS49DSA0 (Seattle-Tacoma-Bellevue). Salary per FTE = General Fund salary actuals / budgeted FTE from TRL Position Inventory. FTE declined from 253 (2017) to 229 (2025) &mdash; the entire salary increase was per-person cost growth, not headcount.</div>
+    <div class="chart-note">All indexed to 2017 = 100. CPI-U (Consumer Price Index) annual averages from BLS Series CUURS49DSA0 (Seattle-Tacoma-Bellevue). Salary per FTE = General Fund salary actuals / budgeted FTE from TRL Position Inventory. FTE declined from 253 (2017) to 229 (2025) &mdash; the entire salary increase was per-person cost growth, not headcount.</div>
   </div>
 </section>
 
@@ -604,7 +644,7 @@ body {
 <section class="exhibit">
   <div class="exhibit-label">Exhibit G</div>
   <h2>The Revenue Option Never Pursued</h2>
-  <div class="exhibit-desc">TRL's levy rate has declined 45% since 2016 and sits at less than half the statutory maximum. The last levy lid lift attempt was in 2009. Heywood's job description requires her to "explore and propose to the Board new potential sources of finance."</div>
+  <div class="exhibit-desc">TRL's levy rate has declined 45% since 2016 and sits at less than half the statutory maximum. The last levy lid lift &mdash; a ballot measure asking voters to approve a higher rate &mdash; was attempted in 2009. Heywood's job description requires her to "explore and propose to the Board new potential sources of finance."</div>
   <div class="chart-frame">
     <div class="legend">
       <div class="legend-item"><div class="legend-swatch" style="background: var(--blue-accent)"></div> TRL Levy Rate</div>
@@ -643,7 +683,9 @@ body {
 </section>
 
 <footer class="footer">
-  All data from public records: TRL Final Budget documents, board meeting minutes, board meeting recordings (AV CaptureAll), and published news reporting. Financial data sourced from TRL General Fund budget documents (2019, 2021, 2023, 2025, 2026 Final Budgets). CPI data from BLS. Quotes verified against original board meeting recordings. Prepared March 2026.
+  <p>All data from public records: TRL Final Budget documents, board meeting minutes, board meeting recordings (AV CaptureAll), and published news reporting. Financial data sourced from TRL General Fund budget documents (2019, 2021, 2023, 2025, 2026 Final Budgets). CPI data from BLS. Quotes verified against original board meeting recordings.</p>
+  <p>Every data point is embedded in the source of this page. View source or inspect any chart to trace the numbers back to the documents cited above.</p>
+  <p>Prepared March 2026.</p>
 </footer>
 
 </div>

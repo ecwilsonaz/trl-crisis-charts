@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>TRL Crisis Report — Part 2: Diagnosis &amp; Path Forward</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Surface hierarchy */
+  --bg: #f4f6f8;
+  --card-bg: #ffffff;
+  --border: #d4d0c8;
+  --highlight-bg: #fff8f0;
+
+  /* Text hierarchy */
+  --text: #1a1a1a;
+  --text-secondary: #555;
+  --steel: #6b7a8d;
+
+  /* Semantic accents */
+  --red: #c23b22;
+  --blue: #2c5f8a;
+  --green-dark: #2d6a38;
+  --amber: #b8860b;
+  --purple: #6b5b8a;
+
+  /* Typography */
+  --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
+  --font-serif: 'IBM Plex Serif', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  font-family: var(--font-serif);
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  color-scheme: light only !important;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══ PAGE LAYOUT ═══ */
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3rem 2rem 6rem;
+}
+
+/* ═══ HEADER ═══ */
+
+.header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.header-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.header h1 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.header .subtitle {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-secondary);
+  max-width: 700px;
+  line-height: 1.5;
+}
+
+.header .source-line {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--steel);
+  margin-top: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+/* ═══ NAVIGATION ═══ */
+
+.part-nav {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  margin-top: 1.25rem;
+  display: flex;
+  gap: 2rem;
+}
+
+.part-nav a {
+  color: var(--blue);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.part-nav a:hover {
+  border-bottom-color: var(--blue);
+}
+
+.part-nav .current {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* ═══ RESIGNATION NOTE ═══ */
+
+.resignation-note {
+  background: var(--highlight-bg);
+  border-left: 4px solid var(--steel);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 3rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.resignation-note a {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+/* ═══ EXHIBITS ═══ */
+
+.exhibit {
+  margin-bottom: 4rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.exhibit:last-of-type {
+  border-bottom: none;
+}
+
+.exhibit-label {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 0.25rem;
+}
+
+.exhibit > h2 {
+  font-family: var(--font-serif);
+  font-size: 1.65rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.exhibit-desc {
+  font-family: var(--font-sans);
+  font-size: 1.02rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.55;
+  max-width: 700px;
+}
+
+/* ═══ SECTION SUBHEADS ═══ */
+
+h3 {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--blue);
+  display: inline-block;
+}
+
+/* ═══ STAT CARDS ═══ */
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 1.25rem 1rem 1rem;
+}
+
+.stat-card.red { border-top: 3px solid var(--red); }
+.stat-card.blue { border-top: 3px solid var(--blue); }
+.stat-card.amber { border-top: 3px solid var(--amber); }
+.stat-card.purple { border-top: 3px solid var(--purple); }
+
+.stat-card .label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.stat-card .value {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.stat-card .value.red { color: var(--red); }
+.stat-card .value.blue { color: var(--blue); }
+.stat-card .value.amber { color: var(--amber); }
+.stat-card .value.purple { color: var(--purple); }
+
+.stat-card .context {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  line-height: 1.35;
+}
+
+/* ═══ PROSE ═══ */
+
+.prose {
+  font-size: 1.02rem;
+  margin-bottom: 1.5rem;
+  max-width: 680px;
+}
+
+.prose strong { font-weight: 600; }
+
+/* ═══ CHART CONTAINERS ═══ */
+
+.chart-container {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 380px;
+}
+
+.chart-note {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+/* ═══ CALLOUTS ═══ */
+
+.callout {
+  background: var(--highlight-bg);
+  border-left: 4px solid var(--red);
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.callout.blue-callout {
+  background: rgba(44,95,138,0.05);
+  border-left-color: var(--blue);
+}
+
+.callout.green-callout {
+  background: rgba(45,106,56,0.05);
+  border-left-color: var(--green-dark);
+}
+
+.callout .callout-number {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--red);
+}
+
+.callout.blue-callout .callout-number {
+  color: var(--blue);
+}
+
+/* ═══ DATA TABLES ═══ */
+
+.data-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 0.5rem;
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+}
+
+table.data-table thead th {
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding: 0.55rem 0.5rem;
+  border-bottom: 2px solid var(--text);
+  text-align: right;
+  white-space: nowrap;
+  background: var(--card-bg);
+}
+
+table.data-table thead th:first-child { text-align: left; }
+
+table.data-table tbody td {
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+table.data-table tbody td:first-child {
+  text-align: left;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+table.data-table tbody tr.total-row td {
+  border-top: 2px solid var(--text);
+  border-bottom: 2px solid var(--text);
+  font-weight: 700;
+}
+
+table.data-table tbody tr.trl td {
+  background: var(--highlight-bg);
+  font-weight: 700;
+  color: var(--red);
+}
+
+table.data-table tbody tr.median-row td {
+  border-top: 2px solid var(--text);
+  font-weight: 600;
+  font-style: italic;
+}
+
+td.neg { color: var(--green-dark) !important; }
+td.pos { color: var(--red) !important; }
+
+/* ═══ DEPARTMENT GRID ═══ */
+
+.dept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.dept-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+}
+
+.dept-card .dept-name {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.3rem;
+}
+
+.dept-card .dept-salary {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text);
+  margin-bottom: 0.15rem;
+}
+
+.dept-card .dept-change {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--red);
+}
+
+.dept-card .dept-context {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+  line-height: 1.35;
+}
+
+.dept-card .bar-track {
+  height: 6px;
+  background: var(--border);
+  margin-top: 0.6rem;
+  position: relative;
+}
+
+.dept-card .bar-fill-cpi {
+  height: 100%;
+  background: var(--blue);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.35;
+}
+
+.dept-card .bar-fill-actual {
+  height: 100%;
+  background: var(--red);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* ═══ FTE CHART ═══ */
+
+.fte-chart-wrap {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.fte-chart-wrap h4 {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.fte-inner {
+  position: relative;
+  height: 300px;
+}
+
+/* ═══ METHODOLOGY ═══ */
+
+.methodology {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.methodology strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ═══ SOURCES ═══ */
+
+.sources {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ═══ ACTION ITEMS (EXHIBIT K) ═══ */
+
+.phase {
+  margin-top: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.phase-header {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1.25rem;
+  display: inline-block;
+}
+
+.phase-header.immediate { background: var(--red); color: #fff; }
+.phase-header.near { background: var(--blue); color: #fff; }
+.phase-header.structural { background: var(--green-dark); color: #fff; }
+
+.action {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  padding-left: 3.5rem;
+}
+
+.action-num {
+  position: absolute;
+  left: 1.25rem;
+  top: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 500;
+  width: 1.6rem;
+  text-align: center;
+}
+
+.action-num.immediate { color: var(--red); }
+.action-num.near { color: var(--blue); }
+.action-num.structural { color: var(--green-dark); }
+
+.action-title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  color: var(--text);
+}
+
+.action-body {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+  max-width: 640px;
+}
+
+.action-body em {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* ═══ LEVY TABLE (EXHIBIT K) ═══ */
+
+.levy-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.levy-box .levy-title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 1rem;
+}
+
+.levy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+}
+
+.levy-table thead tr {
+  border-bottom: 2px solid var(--text);
+}
+
+.levy-table thead th {
+  text-align: right;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.levy-table thead th:first-child { text-align: left; }
+
+.levy-table tbody td {
+  text-align: right;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.levy-table tbody td:first-child {
+  text-align: left;
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+.levy-table tbody tr.highlight td {
+  background: var(--highlight-bg);
+}
+
+.levy-table tbody tr.highlight td:first-child {
+  font-weight: 600;
+}
+
+.levy-table tbody tr.total-row td {
+  border-bottom: none;
+  border-top: 2px solid var(--text);
+  font-weight: 700;
+}
+
+.levy-table .yes { color: var(--green-dark); }
+.levy-table .no { color: var(--red); }
+
+.levy-prose {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 640px;
+}
+
+.levy-scenarios {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-top: 1rem;
+  color: var(--text-secondary);
+}
+
+.levy-scenarios strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.levy-source {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.75rem;
+}
+
+/* ═══ FOOTER ═══ */
+
+.footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer .part-nav {
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+/* ═══ CHART HEIGHT VARIANTS ═══ */
+
+.chart-wrap.tall { height: 400px; }
+.chart-wrap.medium { height: 320px; }
+.chart-wrap.short { height: 300px; }
+
+/* ═══ GLOSSARY ═══ */
+
+.glossary {
+  margin-bottom: 3rem;
+}
+
+.glossary summary {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.75rem 0;
+  list-style: none;
+}
+
+.glossary summary::-webkit-details-marker { display: none; }
+
+.glossary summary::before {
+  content: '▸ ';
+  font-size: 0.8rem;
+}
+
+.glossary[open] summary::before {
+  content: '▾ ';
+}
+
+.glossary .glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.75rem;
+  padding: 1rem 0;
+}
+
+.glossary .glossary-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+}
+
+.glossary .glossary-term {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+
+.glossary .glossary-def {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+/* ═══ DRAFT BANNER ═══ */
+
+.draft-banner {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--amber);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.6rem 1rem;
+  letter-spacing: 0.02em;
+}
+
+.draft-banner a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* ═══ LINKS ═══ */
+
+a { color: var(--blue); }
+
+/* ═══ RESPONSIVE ═══ */
+
+@media (max-width: 768px) {
+  .page { padding: 2rem 1.25rem 4rem; }
+  .header h1 { font-size: 1.5rem; }
+  .exhibit > h2 { font-size: 1.35rem; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .chart-wrap, .chart-wrap.tall, .chart-wrap.medium, .chart-wrap.short { height: 280px; }
+  .fte-inner { height: 240px; }
+  .dept-grid { grid-template-columns: 1fr; }
+  .part-nav { flex-direction: column; gap: 0.5rem; }
+}
+
+@media (max-width: 480px) {
+  .page { padding: 1.5rem 1rem 3rem; }
+  .header h1 { font-size: 1.35rem; }
+  .header-eyebrow { font-size: 9px; letter-spacing: 2px; }
+  .exhibit > h2 { font-size: 1.2rem; }
+  .stat-card .value { font-size: 1.3rem; }
+  .stat-card .label { font-size: 0.65rem; }
+  .chart-wrap, .chart-wrap.tall, .chart-wrap.medium, .chart-wrap.short { height: 240px; }
+  .levy-table { font-size: 0.75rem; }
+}
+</style>
+</head>
+<body>
+<div class="draft-banner">DRAFT FOR FEEDBACK &mdash; <a href="mailto:ericw@pm.me">ericw@pm.me</a> &middot; Signal: @eee.343</div>
+<div class="page">
+
+<!-- ═══════════════════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════════════════ -->
+
+<header class="header">
+  <div class="header-eyebrow">Financial Analysis &mdash; Part 2</div>
+  <h1>Diagnosis &amp; Path Forward</h1>
+  <div class="subtitle">Where the money went, how TRL compares to peers, and what the board can do about it</div>
+  <div class="source-line">Sources: TRL Final Budget documents, Washington Public Library Statistical Report, BLS CPI data, published news reporting &mdash; All public records</div>
+  <nav class="part-nav">
+    <a href="index.html">&larr; Part 1: Anatomy of a Financial Crisis (Exhibits A&ndash;H)</a>
+    <span class="current">Part 2: Exhibits I&ndash;K</span>
+  </nav>
+</header>
+
+<!-- ═══ RESIGNATION NOTE ═══ -->
+
+<div class="resignation-note" style="border-left-color: var(--blue);">
+  On March 27, 2026, Executive Director Cheryl Heywood
+  <a href="https://chinookobserver.com/2026/03/26/timberland-regional-library-executive-director-cheryl-heywood-resigns/">resigned</a>,
+  effective June 30, relinquishing her duties immediately.
+  At the same meeting, the board discussed launching a levy lid lift campaign &mdash;
+  the first serious consideration of new revenue since 2009.
+  <br><br>
+  Together, the leadership transition and the fiscal crisis force a choice.
+  <a href="index.html">Part 1</a> of this report documented how TRL arrived here &mdash;
+  the widening gap between revenue and expenditures, the fund balance collapse,
+  and the 61 frontline layoffs that followed.
+  Part 2 asks three questions: where did the money go (Exhibit I),
+  how does TRL compare to peers (Exhibit J),
+  and what can the board do now (Exhibit K).
+</div>
+
+<details class="glossary">
+  <summary>Key terms used in this report</summary>
+  <div class="glossary-grid">
+    <div class="glossary-item">
+      <div class="glossary-term">FTE (Full-Time Equivalent)</div>
+      <div class="glossary-def">A way of counting staff. One FTE = one full-time position. A half-time employee = 0.5 FTE.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Service Center</div>
+      <div class="glossary-def">TRL's central administrative headquarters, which supports all 27 branch libraries. Includes HR, IT, Finance, Facilities, Creative Services, and Admin.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">CPI (Consumer Price Index)</div>
+      <div class="glossary-def">A standard measure of inflation &mdash; how much prices are rising. This report uses the Seattle-area CPI, the closest available measure for TRL's region.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Levy rate</div>
+      <div class="glossary-def">The amount of property tax charged per $1,000 of your home's assessed value. TRL's rate of $0.224 means a homeowner with a $400,000 home pays about $90/year for library service.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Levy lid lift</div>
+      <div class="glossary-def">A ballot measure that asks voters to raise the cap on how much property tax the library can collect. Washington law limits annual growth to 1%; a lid lift resets the rate higher.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Fund balance</div>
+      <div class="glossary-def">The district's savings &mdash; money set aside from prior years to cover future expenses or emergencies.</div>
+    </div>
+  </div>
+</details>
+
+<!-- ═══════════════════════════════════════════════════════
+     CONTEXT: THE EFFICIENCY PICTURE
+     ═══════════════════════════════════════════════════════ -->
+
+<div class="callout blue-callout" style="margin-bottom: 3rem;">
+  <strong>TRL has two problems, not one.</strong>
+  In 2024 (the latest year of state data), TRL spent $51 per resident on library service &mdash;
+  less than every comparable peer except Fort Vancouver ($50). That's not a sign of efficiency.
+  It's a sign of underfunding. TRL's levy rate ($0.224) is the lowest among all peers and less than half
+  the statutory maximum. The last levy lid lift attempt was 2009. The result shows in the data:
+  TRL delivers 9.6 circulations per resident, compared to 13&ndash;14 for better-funded systems like
+  Sno-Isle, Whatcom, and KCLS.
+  <br><br>
+  And of the limited dollars TRL does collect, an increasing share goes to administration
+  rather than library service. Between 2017 and 2026, the share of salary spending flowing to six
+  administrative departments rose from 18.6% to 25.7% &mdash; while frontline staff were cut.
+  <br><br>
+  <strong>Not enough money coming in, and what does come in is increasingly going to the wrong place.</strong>
+  The exhibits that follow diagnose both problems &mdash; and the board actions in Exhibit K address
+  them in the right order: fix the allocation first, then fix the revenue.
+
+  <div class="data-table-wrap" style="margin-top: 1.25rem;">
+    <table class="data-table" style="max-width: 640px;">
+      <thead>
+        <tr>
+          <th>System</th>
+          <th>Cost/Resident</th>
+          <th>Cost/Circ</th>
+          <th>Circ/Resident</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="trl">
+          <td>Timberland Regional</td>
+          <td>$51</td>
+          <td>$5.35</td>
+          <td>9.6</td>
+        </tr>
+        <tr>
+          <td>Fort Vancouver Regional</td>
+          <td>$50</td>
+          <td>$5.23</td>
+          <td>9.5</td>
+        </tr>
+        <tr>
+          <td>Kitsap Regional</td>
+          <td>$61</td>
+          <td>$6.66</td>
+          <td>9.2</td>
+        </tr>
+        <tr>
+          <td>Pierce County</td>
+          <td>$65</td>
+          <td>$7.99</td>
+          <td>8.2</td>
+        </tr>
+        <tr>
+          <td>Sno-Isle</td>
+          <td>$75</td>
+          <td>$5.61</td>
+          <td>13.3</td>
+        </tr>
+        <tr>
+          <td>Whatcom County</td>
+          <td>$77</td>
+          <td>$5.43</td>
+          <td>14.2</td>
+        </tr>
+        <tr>
+          <td>King County (KCLS)</td>
+          <td>$90</td>
+          <td>$6.46</td>
+          <td>14.0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="chart-note" style="margin-bottom: 0;">
+    2024 data from Washington Public Library Statistical Report. Cost/Resident = total operating expenditures &divide; population served.
+    Cost/Circ = total operating expenditures &divide; total circulation. Circ/Resident = total circulation &divide; population served.
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     EXHIBIT I: WHERE THE MONEY WENT
+     ═══════════════════════════════════════════════════════ -->
+
+<section class="exhibit">
+  <div class="exhibit-label">Exhibit I</div>
+  <h2>Where the Money Went</h2>
+  <p class="exhibit-desc">
+    Between 2017 and 2026, salary spending in TRL's six Service Center departments &mdash; the central
+    administrative headquarters that supports all branch libraries &mdash; doubled from $2.2M to $4.4M.
+    For six of those years, spending grew more slowly than inflation. Then the restraint ended.
+    Four years of accelerating cost growth wiped out six years of savings and helped push the district into crisis.
+  </p>
+
+  <div class="stats-row">
+    <div class="stat-card red">
+      <div class="label">Service Ctr. Spending</div>
+      <div class="value red">2&times;</div>
+      <div class="context">$2.2M (2017) &rarr; $4.4M (2026)</div>
+    </div>
+    <div class="stat-card red">
+      <div class="label">Per-Person Growth</div>
+      <div class="value red">+69%</div>
+      <div class="context">vs. +43% Seattle-area inflation</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="label">Service Ctr. Share of Staff</div>
+      <div class="value blue">19.2%</div>
+      <div class="context">Up from 14.4% in 2019. System FTE fell 8%.</div>
+    </div>
+    <div class="stat-card red">
+      <div class="label">2026 Gap vs. CPI</div>
+      <div class="value red">$1.3M</div>
+      <div class="context">Single-year. Roughly one-third of the $3.8M deficit.</div>
+    </div>
+  </div>
+
+  <!-- ═══ THE TRAJECTORY ═══ -->
+  <h3>The Trajectory</h3>
+
+  <div class="chart-container">
+    <div class="chart-wrap">
+      <canvas id="trajectoryChart"></canvas>
+    </div>
+  </div>
+  <p class="chart-note">
+    <strong>Red line:</strong> Actual Service Center salary spending (six departments).
+    <strong>Blue line:</strong> What 2017 spending would have been if it simply grew with Seattle-area inflation (CPI), holding staffing constant.
+    The gap between the lines is the annual difference &mdash; negative when spending was below CPI, positive when above.
+    Data: 2017&ndash;2019 actuals from TRL Final Budget documents. 2020 year-end estimates. 2021&ndash;2026 budgeted.
+    CPI from Bureau of Labor Statistics, Seattle-Tacoma-Bellevue metro area. 2026 CPI estimated at 3.5%.
+  </p>
+
+  <div class="callout">
+    A hiring freeze from January 2019 and COVID-era cuts drove Service Center FTE from 37 down to 29.5.
+    By 2022, cumulative under-spending versus CPI had reached <strong>$1.6 million in savings</strong>.
+    Then the curve reversed. In 2023, spending crossed above the CPI line for the first time.
+    By 2026, the single-year gap was <strong>$1.3 million above CPI &mdash; and accelerating</strong>.
+    At the current trajectory, 2027 will be worse.
+  </div>
+
+  <!-- ═══ THE RATE ═══ -->
+  <h3>The Rate: Per-Person Cost Growth</h3>
+
+  <p class="prose">
+    The average salary per full-time-equivalent position (FTE) in these six departments grew from
+    $58,592 (2017) to $99,194 (2026) &mdash; a 69% increase. Seattle-area inflation over the same period was 43%.
+    No peer library system grew faster than 27% from 2019 to 2024 (see Exhibit J).
+  </p>
+  <p class="prose">
+    <strong>Some of this growth was legitimate.</strong> TRL was the lowest-paid library system among its peers in 2019 (Exhibit J).
+    A 2018&ndash;2019 pay and job-title review (known as a &ldquo;classification and compensation study&rdquo;)
+    led to position reclassifications (changing job titles and pay grades) &mdash; department managers were
+    retitled as directors and put at uniform salary levels. Some above-inflation growth was necessary catch-up.
+    But the rate exceeded every comparable peer, and the growth was concentrated in administrative departments
+    rather than frontline staff.
+  </p>
+
+  <div class="chart-container">
+    <div class="chart-wrap">
+      <canvas id="perFteChart2"></canvas>
+    </div>
+  </div>
+  <p class="chart-note">
+    Per-person salary = department salary total &divide; department FTE. <strong>Red line:</strong> actual $/FTE.
+    <strong>Blue dashed line:</strong> what 2017's $/FTE would be if it grew at CPI only.
+    The lines diverge starting around 2020&ndash;2021 as per-person costs accelerate past inflation.
+    Caveat: average $/FTE can rise when the mix of staff changes (e.g., replacing a junior role with a senior one), not just from individual raises.
+  </p>
+
+  <div class="dept-grid">
+    <div class="dept-card">
+      <div class="dept-name">Admin</div>
+      <div class="dept-salary">$65,038 &rarr; $148,798</div>
+      <div class="dept-change">+129%</div>
+      <div class="dept-context">3.0&times; CPI. FTE: 5&rarr;3 (net decline). Includes the Executive Director ($213K) and reclassified positions. Per-person growth driven by 2019 pay and job-title review and subsequent raises.</div>
+      <div class="bar-track"><div class="bar-fill-cpi" style="width:33%"></div><div class="bar-fill-actual" style="width:100%"></div></div>
+    </div>
+    <div class="dept-card">
+      <div class="dept-name">Facilities + Courier</div>
+      <div class="dept-salary">$41,578 &rarr; $82,458</div>
+      <div class="dept-change">+98%</div>
+      <div class="dept-context">2.3&times; CPI. FTE: 12&rarr;16.75. May reflect Mountain View library build, Expanded Access Hours infrastructure, and reclassifications from page/courier to operations roles.</div>
+      <div class="bar-track"><div class="bar-fill-cpi" style="width:44%"></div><div class="bar-fill-actual" style="width:100%"></div></div>
+    </div>
+    <div class="dept-card">
+      <div class="dept-name">HR</div>
+      <div class="dept-salary">$71,362 &rarr; $122,208</div>
+      <div class="dept-change">+71%</div>
+      <div class="dept-context">1.7&times; CPI. FTE: 3&rarr;4.75. Includes Employee Experience Advisor ($127K, created Aug 2024).</div>
+      <div class="bar-track"><div class="bar-fill-cpi" style="width:61%"></div><div class="bar-fill-actual" style="width:100%"></div></div>
+    </div>
+    <div class="dept-card">
+      <div class="dept-name">Creative Services</div>
+      <div class="dept-salary">$55,435 &rarr; $83,867</div>
+      <div class="dept-change">+51%</div>
+      <div class="dept-context">1.2&times; CPI. FTE: 6.05&rarr;5.75 (net decline). Called &ldquo;Communications&rdquo; pre-2021.</div>
+      <div class="bar-track"><div class="bar-fill-cpi" style="width:84%"></div><div class="bar-fill-actual" style="width:100%"></div></div>
+    </div>
+    <div class="dept-card">
+      <div class="dept-name">IT</div>
+      <div class="dept-salary">$75,692 &rarr; $114,033</div>
+      <div class="dept-change">+51%</div>
+      <div class="dept-context">1.2&times; CPI. FTE: 7&rarr;8.33. Pre-COVID was 7.3.</div>
+      <div class="bar-track"><div class="bar-fill-cpi" style="width:84%"></div><div class="bar-fill-actual" style="width:100%"></div></div>
+    </div>
+    <div class="dept-card">
+      <div class="dept-name">Finance</div>
+      <div class="dept-salary">$66,848 &rarr; $96,884</div>
+      <div class="dept-change">+45%</div>
+      <div class="dept-context">1.1&times; CPI. FTE: 4&rarr;5.75. Closest to CPI trajectory.</div>
+      <div class="bar-track"><div class="bar-fill-cpi" style="width:95%"></div><div class="bar-fill-actual" style="width:100%"></div></div>
+    </div>
+  </div>
+  <p class="chart-note">
+    Red bars = actual per-person growth (2017&rarr;2026). Blue overlay = Seattle CPI (~43%).
+    Changes in average salary can reflect individual raises, job-title reclassifications, or shifts in the mix of junior vs. senior staff.
+    Position-level data would clarify which departments reflect reclassifications vs. across-the-board increases.
+  </p>
+
+  <!-- ═══ THE ALLOCATION ═══ -->
+  <h3>The Allocation: Who Got the Positions</h3>
+
+  <p class="prose">
+    From 2019 (pre-COVID) to 2026, TRL's Service Center added 8.4 FTE. Over the same period,
+    the system as a whole <em>lost</em> 19.4 FTE. Non-Service-Center staff &mdash; the people who run the libraries &mdash;
+    lost 27.7 positions. Service Center's share of total system FTE rose from 14.4% to 19.2%.
+  </p>
+  <p class="prose">
+    The clearest way to see the allocation shift: track Service Center's share of total salary spending over time.
+    In 2017, these six departments consumed 18.6% of TRL's General Fund salary budget. By 2026, that share had grown to 25.7% &mdash;
+    meaning more than a quarter of all salary dollars now flow to administration. The share was declining through 2020,
+    then reversed sharply.
+  </p>
+
+  <div class="chart-container">
+    <div class="chart-wrap short">
+      <canvas id="ratioChart"></canvas>
+    </div>
+  </div>
+  <p class="chart-note">
+    Service Center salary as a percentage of total General Fund salary expenditures (red line) and
+    Service Center FTE as a percentage of total system FTE (blue line).
+    The gap between the two lines reflects the fact that Service Center staff are paid more per person than frontline staff ($99K vs $68K in 2026).
+    Both lines accelerate from 2022 onward.
+    For comparison, KCLS (King County Library System) reports 31.5% of its total budget goes to administration &mdash; but that figure
+    includes all department costs (IT infrastructure, facilities), not just salary.
+  </p>
+
+  <p class="prose">
+    When 61 frontline staff were laid off in March 2026 and
+    zero administrative positions were eliminated, the pattern that had been building for years
+    became visible to the public.
+  </p>
+
+  <div class="fte-chart-wrap">
+    <h4>Service Center FTE: Full Trajectory, 2017&ndash;2026</h4>
+    <div class="fte-inner">
+      <canvas id="fteFullChart"></canvas>
+    </div>
+  </div>
+  <p class="chart-note">
+    Service Center FTE includes Admin, Creative Services, Finance, HR, IT, Facilities+Courier.
+    2017&ndash;2019 actual staffing from TRL Final Budget documents. 2020 year-end estimate. 2021&ndash;2026 budgeted.
+    Dashed line shows 2019 pre-COVID level (36.0 FTE).
+    After COVID cuts bottomed out at 29.5 (2021), Service Center FTE recovered past the pre-COVID level by 2024 and reached 44.3 by 2026 &mdash;
+    23% above pre-COVID, while system-wide FTE remained 8% below.
+  </p>
+
+  <!-- ═══ THE SPECIFIC CHOICES ═══ -->
+  <h3>The Specific Choices</h3>
+
+  <p class="prose">
+    Three categories of decisions drove the acceleration:
+  </p>
+  <p class="prose">
+    <strong>Reclassifications and restructuring.</strong> In 2019, a classification and compensation study retitled department
+    managers as directors and set uniform director-level salaries. In Administration, the Administrative Assistant and
+    Administrative Support Services Manager roles were reclassified as Administrative Coordinator and Operations Coordinator,
+    contributing to an 18.4% salary increase in that department for 2021 alone.
+  </p>
+  <p class="prose">
+    <strong>New positions created during declining reserves.</strong> The Employee Experience Advisor ($127K, created August 2024)
+    and Special Projects Coordinator ($106K, created 2026) were added while the fund balance fell 60% and frontline
+    layoffs were imminent. The Facilities+Courier department grew from 9.5 to 16.75 FTE &mdash; partly justified
+    by the Mountain View library build and Expanded Access Hours infrastructure, but representing the single largest
+    FTE increase of any department.
+  </p>
+  <p class="prose">
+    <strong>Executive compensation.</strong> The executive director's salary rose from $155K (2023) to $213K (2026) &mdash; a 37% increase
+    in three years. A 2-year contract with 3% annual increases was approved December 30, 2025 &mdash;
+    eleven weeks before the layoffs. Other senior administrative salaries followed a similar pattern:
+    the HR Administrator rose 45% ($99K to $143K) and the Executive Administrator rose 49% ($90K to $134K) over the same period.
+  </p>
+
+  <div class="callout blue-callout">
+    <strong>A note on Facilities + Courier.</strong>
+    This department accounts for the largest FTE growth (12.0 &rarr; 16.75 from 2017) and the second-fastest per-person cost growth (+98%).
+    Courier staff deliver materials between branches and are service-supporting rather than purely administrative.
+    The Facilities expansion may reflect legitimate operational needs.
+    The exhibit includes them because they are budgeted under Service Center operations and controlled by the same leadership team.
+    The board should evaluate this growth on its merits &mdash; some may be justified &mdash; but it should be evaluated, not assumed.
+  </div>
+
+  <!-- ═══ FRAMING ═══ -->
+  <h3>What This Does and Does Not Show</h3>
+
+  <div class="methodology">
+    <strong>What this exhibit shows:</strong> The ten-year trajectory of salary spending in TRL's six Service Center departments,
+    compared to Seattle-area inflation (CPI). It shows per-person cost growth, staffing levels, and the allocation of positions
+    between Service Center and the rest of the system.<br><br>
+
+    <strong>What this exhibit does not show:</strong> Whether individual positions or raises were justified.
+    CPI is a benchmark for inflation, not for labor market competitiveness.
+    TRL was the lowest-paid library system among its peers in 2019 (Exhibit J), and some above-CPI growth represented
+    legitimate catch-up from that underpaid baseline. A 2018&ndash;2019 classification and compensation study drove some reclassifications.
+    The relevant question is not &ldquo;did costs grow faster than inflation?&rdquo; &mdash; they did, and partly for defensible reasons &mdash;
+    but &ldquo;did costs grow faster than peers facing identical constraints?&rdquo; Exhibit J answers that question: yes, at 1.3&times; the peer median rate &mdash; and concentrated in administration, not frontline.<br><br>
+
+    <strong>Benefits:</strong> Not included. Rising healthcare costs affect every public employer &mdash; this analysis isolates salary,
+    the spending category most directly controlled by leadership decisions.
+    A peer comparison of benefits-per-FTE growth (using the same state dataset) shows TRL's benefits growth (+30%, 2017&ndash;2024)
+    was modestly above the peer median (+22%) but not an outlier; the salary growth pattern is the stronger anomaly.
+    All salary figures reflect budgeted amounts from TRL Final Budget documents.<br><br>
+
+    <strong>Data sources:</strong> Department-level salary and FTE data: 2017&ndash;2019 actuals and 2020 adopted/year-end estimates from
+    the 2019 and 2021 Final Budget department expenditure tables. 2021&ndash;2026 from Final Budget department budgets.
+    System-wide FTE from Position Inventory trend tables. Seattle-area CPI from BLS (Series CUURS49DSA0 for 2017&ndash;2020;
+    CUUSA423SA0 semiannual averages for 2021&ndash;2026; both series produce identical 2021 values). 2026 CPI estimated at 3.5% YoY.
+    Individual salary citations from published news reporting (Chinook Observer, The Daily Chronicle) and TRL budget position listings.
+    All public records.
+    <br><br>
+    Prepared March 2026.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     EXHIBIT J: PEER BENCHMARKING
+     ═══════════════════════════════════════════════════════ -->
+
+<section class="exhibit">
+  <div class="exhibit-label">Exhibit J</div>
+  <h2>Peer Benchmarking</h2>
+  <p class="exhibit-desc">
+    How TRL's salary spending compares to six comparable Washington State library systems.
+    From 2017 to 2024, TRL's per-person salary growth (+41%) was the highest among all peers &mdash;
+    1.3&times; the peer median (+30%). TRL started mid-pack, dipped to the lowest position during the hiring freeze,
+    then overcorrected. The issue was not the destination but the speed, the timing, and the allocation.
+  </p>
+
+  <div class="stats-row">
+    <div class="stat-card red">
+      <div class="label">TRL Salary/FTE Growth</div>
+      <div class="value red">+41%</div>
+      <div class="context">2017&rarr;2024. Fastest among all peers.</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="label">Peer Median Growth</div>
+      <div class="value blue">+30%</div>
+      <div class="context">2017&rarr;2024. TRL grew at 1.3&times; this rate.</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="label">TRL Salary per Resident</div>
+      <div class="value blue">$26</div>
+      <div class="context">2nd-lowest among peers (Sno-Isle: $39)</div>
+    </div>
+    <div class="stat-card red">
+      <div class="label">TRL Levy Rate</div>
+      <div class="value red">$0.224</div>
+      <div class="context">~$90/yr for a $400K home. Lowest among peers. Max: $0.50.</div>
+    </div>
+  </div>
+
+  <!-- Chart 5: Salary per FTE over time -->
+  <h3>Salary per FTE: TRL vs. Peers (2017&ndash;2024)</h3>
+
+  <div class="chart-container">
+    <div class="chart-wrap tall">
+      <canvas id="perFteChart"></canvas>
+    </div>
+  </div>
+  <p class="chart-note">
+    Salary per FTE = total salary &amp; wage expenditures &divide; total staff FTE, from Washington Public Library Statistical Report.
+    Excludes benefits. TRL highlighted in red. TRL started mid-pack in 2017, dipped to the lowest position during the 2019 hiring freeze, then climbed steeply.
+    King County Library System (KCLS) data missing for 2021&ndash;2022 in the state dataset. North Central Regional omitted due to incomplete data.
+  </p>
+
+  <!-- Chart 6: Growth rate comparison -->
+  <h3>Per-Person Salary Growth: 2017 &rarr; 2024</h3>
+
+  <div class="chart-container">
+    <div class="chart-wrap medium">
+      <canvas id="growthChart"></canvas>
+    </div>
+  </div>
+  <p class="chart-note">
+    Cumulative salary-per-FTE growth from 2017 to 2024 (latest available state data).
+    Dashed line shows peer median (+30%). TRL's +41% is the highest among all peers.
+  </p>
+
+  <div class="callout">
+    In 2017, TRL's salary per FTE ($45,747) was comparable to Fort Vancouver ($45,206) and Whatcom ($44,872).
+    During the hiring freeze, TRL dipped to the lowest position ($40,134 in 2019).
+    By 2024, TRL had recovered to $64,269 &mdash; back near Kitsap ($62,782) and Whatcom ($59,592).
+    <strong>The destination was reasonable. The problem was the path:</strong> the fastest growth rate among all peers (+41% vs. peer median +30%),
+    concentrated in administrative departments rather than frontline staff, during a period when reserves were collapsing
+    and leadership was telling the board &ldquo;we are in the black.&rdquo;
+  </div>
+
+  <!-- Full comparison table -->
+  <h3>Full Comparison Table</h3>
+
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>System</th>
+          <th>Pop. (2024)</th>
+          <th>$/FTE 2017</th>
+          <th>$/FTE 2024</th>
+          <th>Growth</th>
+          <th>Salary/Resident</th>
+          <th>Total FTE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="trl">
+          <td>Timberland Regional</td>
+          <td>547,900</td>
+          <td>$45,747</td>
+          <td>$64,269</td>
+          <td>+41%</td>
+          <td>$26.08</td>
+          <td>222.3</td>
+        </tr>
+        <tr>
+          <td>Fort Vancouver Regional</td>
+          <td>552,118</td>
+          <td>$45,206</td>
+          <td>$58,367</td>
+          <td>+29%</td>
+          <td>$23.73</td>
+          <td>224.5</td>
+        </tr>
+        <tr>
+          <td>Whatcom County</td>
+          <td>140,730</td>
+          <td>$44,872</td>
+          <td>$59,592</td>
+          <td>+33%</td>
+          <td>$42.14</td>
+          <td>99.5</td>
+        </tr>
+        <tr>
+          <td>Kitsap Regional</td>
+          <td>286,100</td>
+          <td>$48,262</td>
+          <td>$62,782</td>
+          <td>+30%</td>
+          <td>$35.09</td>
+          <td>159.9</td>
+        </tr>
+        <tr>
+          <td>Pierce County</td>
+          <td>665,760</td>
+          <td>$57,767</td>
+          <td>$75,508</td>
+          <td>+31%</td>
+          <td>$34.40</td>
+          <td>303.3</td>
+        </tr>
+        <tr>
+          <td>Sno-Isle</td>
+          <td>819,554</td>
+          <td>$64,227</td>
+          <td>$82,014</td>
+          <td>+28%</td>
+          <td>$39.43</td>
+          <td>394.0</td>
+        </tr>
+        <tr>
+          <td>King County (KCLS)</td>
+          <td>1,607,650</td>
+          <td>$57,045</td>
+          <td>$77,732</td>
+          <td>+36%</td>
+          <td>$39.04</td>
+          <td>807.5</td>
+        </tr>
+        <tr class="median-row">
+          <td>Peer median (excl. TRL)</td>
+          <td></td>
+          <td>$51,405</td>
+          <td>$69,145</td>
+          <td>+30%</td>
+          <td>$37.25</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="chart-note">
+    Salary/Resident = total salary expenditures &divide; population served. All data from WA Public Library Statistical Report (2017 and 2024 survey years).
+    Peer median calculated from the six non-TRL systems. KCLS missing 2021&ndash;2022 in the state dataset but 2017 and 2024 data are complete.
+  </p>
+
+  <!-- Sno-Isle deep dive -->
+  <h3>Sno-Isle: The Closest Peer Made Different Choices</h3>
+
+  <p class="prose">
+    Sno-Isle Libraries is TRL's closest structural peer &mdash; an intercounty rural library district, governed by a board of trustees appointed by county commissions, funded almost entirely by property taxes, subject to the same 1% annual cap on property tax growth imposed by state law (Initiative 747).
+  </p>
+  <p class="prose">
+    Sno-Isle's per-person salary growth was <strong>+28% from 2017 to 2024</strong> &mdash; compared to TRL's +41%. Their 2025 cost-of-living adjustment (COLA) was 3.8% plus a 4.6% catch-up increase from the prior union contract. Transparent, negotiated, system-wide.
+  </p>
+  <p class="prose">
+    When Sno-Isle faced the same structural revenue constraint, their board adopted a resolution on <strong>March 23, 2026</strong> to place a levy lid lift on the August 2026 ballot &mdash; asking voters to restore their rate to $0.47 per $1,000 of assessed value. Their 2018 levy passed by just 0.46% (50.46% yes). Snohomish County voted 52% against; Island County's 62% yes carried it. They're trying again rather than cutting frontline staff.
+  </p>
+  <p class="prose">
+    TRL's levy rate ($0.224) is less than half of Sno-Isle's target rate ($0.47) and less than half the statutory maximum ($0.50). TRL has not attempted a levy lid lift since 2009.
+  </p>
+
+  <!-- Frontline staff callout -->
+  <h3>TRL's Frontline Staff Are Not Overpaid</h3>
+
+  <div class="callout blue-callout">
+    At $64,269 salary per FTE (2024), TRL pays less than every peer system except Fort Vancouver ($58,367) and Whatcom County ($59,592).
+    Per GovSalaries 2023 public records, TRL's median employee salary was $41,115 &mdash; <strong>32% below</strong> Sno-Isle's median of $54,086.
+    <br><br>
+    From 2017 to 2026, per-person costs in the six Service Center departments grew 69% ($58,592 to $99,194)
+    while per-person costs for the rest of the system grew 55% ($44,023 to $68,288).
+    But the sharper disparity is in headcount: the Service Center added 7.3 FTE (37.05 to 44.33) while the rest of the system
+    <em>lost</em> 30.3 positions (216.4 to 186.1).
+    The 2026 single-year gap between what Service Center departments actually spent and what they would have spent
+    if costs had simply kept pace with inflation &mdash; $1.3 million &mdash;
+    could fund roughly 19 frontline positions at the system-wide average salary of $68,288.
+    In March 2026, 61 frontline staff were laid off.
+    <br><br>
+    The findings of Exhibit I apply to six specific administrative departments,
+    not to the system as a whole. TRL's frontline workers were underpaid relative to peers <em>before</em> the layoffs.
+    Any board action on salaries should increase frontline compensation toward peer levels, not reduce it.
+  </div>
+
+  <!-- Methodology -->
+  <div class="methodology">
+    <strong>Data source:</strong> Washington Public Library Statistical Report, merged dataset 2002&ndash;2024, maintained by Bellingham Public Library.
+    Original data collected annually by the Washington State Library from each public library system.
+    Salary figures = &ldquo;Salaries and Wages Expenditures&rdquo; (survey field 4.1), excludes benefits.
+    FTE = &ldquo;Total Staff FTEs&rdquo; (survey field 2.5), includes all paid staff converted to full-time equivalents.
+    Population = &ldquo;Population of Legal Service Area&rdquo; (survey field 1.16).<br><br>
+
+    <strong>State survey vs. budget FTE:</strong> The state survey counts all paid staff including substitutes and temporary workers
+    (hours &divide; 52 &divide; 40), while TRL's Position Inventory counts authorized budgeted positions.
+    This produces a normal gap of a few FTE. TRL's 2018 state-reported FTE (317.0) diverges significantly from its
+    budgeted FTE (252.0) and is likely a reporting anomaly; it does not affect the 2017&rarr;2024 growth
+    calculations used in this exhibit (2017 and 2024 data points are unaffected). A public records request has been submitted to resolve the discrepancy.<br><br>
+
+    <strong>Peer selection:</strong> Systems were selected for structural comparability: intercounty or multi-branch rural/suburban
+    library districts in western Washington, funded primarily by property taxes, subject to the 1% levy growth cap.
+    KCLS is included for scale reference despite being substantially larger. North Central Regional Library was excluded
+    due to incomplete data in the state survey for 2020&ndash;2024.
+  </div>
+
+  <div class="sources">
+    <strong>Sources:</strong> Washington Public Library Statistical Report merged dataset (bellinghampubliclibrary.org/wplsr-merged), updated March 24, 2026.
+    GovSalaries.com 2023 public salary records for TRL (301 employees, avg $45,002, median $41,115) and Sno-Isle (523 employees, avg $57,528, median $54,086).
+    Sno-Isle 2025 Adopted Budget (sno-isle.org). Sno-Isle levy lid lift: Lynnwood Times, My Edmonds News, HeraldNet (March 2026).
+    KCLS 2026 budget (kcls.org/budget). TRL levy rate from TRL Final Budget documents.
+    All public records.
+    <br><br>Prepared March 2026.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     EXHIBIT K: WHAT THE BOARD CAN DO
+     ═══════════════════════════════════════════════════════ -->
+
+<section class="exhibit">
+  <div class="exhibit-label">Exhibit K</div>
+  <h2>What the Board Can Do</h2>
+  <p class="exhibit-desc">
+    The preceding exhibits diagnose the problem. This one proposes a response &mdash; ten actions, sequenced by timeline, designed to restore fiscal discipline, rebuild public trust, and preserve the five-county library district.
+  </p>
+
+  <div class="callout">
+    <strong>The sequencing matters.</strong> The board cannot credibly ask voters for more revenue (Step 5)
+    until it has demonstrated fiscal discipline (Steps 1&ndash;4). Sno-Isle's 2018 levy passed by 0.46%.
+    Public trust is the prerequisite for a levy lid lift &mdash; and trust must be earned through action, not promises.
+  </div>
+
+  <!-- Phase 1: Immediate -->
+  <div class="phase">
+    <div class="phase-header immediate">Immediate &mdash; Next 90 Days</div>
+
+    <div class="action">
+      <div class="action-num immediate">1</div>
+      <div class="action-title">Freeze Service Center hiring</div>
+      <div class="action-body">
+        No new administrative positions until a staffing review is complete. Service Center FTE grew from 29.5 (2021) to 44.3 (2026) while 61 frontline staff were laid off. That sequence should not continue. Existing vacancies should be evaluated against operational need before being filled.
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-num immediate">2</div>
+      <div class="action-title">Commission a peer salary benchmarking study</div>
+      <div class="action-body">
+        Compare TRL's administrative compensation and staffing ratios to Sno-Isle, Fort Vancouver Regional, Pierce County, and Kitsap Regional &mdash; using the Washington State Library's annual statistical data (Exhibit J). Determine whether specific Service Center roles are above, at, or below peer market rates. Exhibit I shows spending grew faster than CPI; a benchmarking study shows whether it also exceeded market rate.
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-num immediate">3</div>
+      <div class="action-title">Commission an independent financial audit</div>
+      <div class="action-body">
+        The union, multiple community members, and former staff have called for this. The fund balance collapse (<a href="index.html">Exhibit C</a>), the gap between leadership's public statements and the actual financial trajectory (<a href="index.html">Exhibit B</a>), and the acceleration in Service Center spending documented in Exhibit I all warrant external review. The audit should examine whether financial information presented to the board was complete and accurate, and whether spending decisions followed board-approved policies.
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 2: Near-term -->
+  <div class="phase">
+    <div class="phase-header near">Near-Term &mdash; Next 6&ndash;12 Months</div>
+
+    <div class="action">
+      <div class="action-num near">4</div>
+      <div class="action-title">Evaluate each Service Center position against operational need</div>
+      <div class="action-body">
+        Service Center FTE grew from 36 (pre-COVID) to 44.3 while the rest of the system lost 28 positions (Exhibit I). Some of those additions may be justified &mdash; IT staff for digital services, facilities workers for new buildings. Others should be evaluated for whether they serve an ongoing operational need or were discretionary additions during a period of declining reserves.
+        <em>Examples: the Employee Experience Advisor ($127K, created August 2024) and Special Projects Coordinator ($106K, created 2026) were added while reserves fell 60% and frontline layoffs were imminent.</em>
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-num near">5</div>
+      <div class="action-title">Evaluate a levy lid lift</div>
+      <div class="action-body">
+        TRL's levy rate ($0.224 per $1,000 of assessed value &mdash; about $90/year for a $400,000 home) is less than half the statutory maximum ($0.50) and less than half of what Sno-Isle is asking voters to approve ($0.47). Under Washington law (RCW 84.55.050), TRL's board sends its levy lid request to the five county commissions for certification, then it goes to voters as a simple-majority ballot measure. A multi-year lid lift can span up to six years.
+        <br><br>
+        Every comparable peer system has used this tool. Sno-Isle: 2009, 2018, and now 2026. KCLS: 2002 and 2010. TRL has not tried since 2009. The 2009 attempt failed district-wide (45.1% yes) but passed in Mason County (55.4%) and Pacific County (51.8%) &mdash; the rural counties that would be most harmed by dissolution. Lewis County rejected it most strongly (29.2% yes).
+        <br><br>
+        <em>A levy lid lift requires public trust. Steps 1&ndash;4 are prerequisites. The board should demonstrate fiscal discipline before asking voters for more money.</em>
+      </div>
+    </div>
+
+    <!-- 2009 Vote Math -->
+    <div class="levy-box">
+      <div class="levy-title">The Math: Why a Levy Is Primarily a Thurston County Campaign</div>
+
+      <table class="levy-table">
+        <thead>
+          <tr>
+            <th>County</th>
+            <th>Yes</th>
+            <th>No</th>
+            <th>% Yes</th>
+            <th>Share of Vote</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight">
+            <td>Thurston</td>
+            <td>23,497</td>
+            <td>27,016</td>
+            <td class="no">46.5%</td>
+            <td><strong>52.1%</strong></td>
+          </tr>
+          <tr>
+            <td>Lewis</td>
+            <td>4,536</td>
+            <td>11,025</td>
+            <td class="no">29.2%</td>
+            <td>16.1%</td>
+          </tr>
+          <tr>
+            <td>Mason</td>
+            <td>8,144</td>
+            <td>6,554</td>
+            <td class="yes">55.4%</td>
+            <td>15.2%</td>
+          </tr>
+          <tr>
+            <td>Grays Harbor</td>
+            <td>4,653</td>
+            <td>5,861</td>
+            <td class="no">44.3%</td>
+            <td>10.9%</td>
+          </tr>
+          <tr>
+            <td>Pacific</td>
+            <td>2,891</td>
+            <td>2,687</td>
+            <td class="yes">51.8%</td>
+            <td>5.8%</td>
+          </tr>
+          <tr class="total-row">
+            <td>District Total</td>
+            <td>43,721</td>
+            <td>53,143</td>
+            <td class="no">45.1%</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="levy-prose">
+        Thurston County cast 52.1% of all votes. The levy failed by 4,712 votes. There is no realistic path to passage without Thurston.
+      </div>
+
+      <div class="levy-scenarios">
+        <strong>If other counties stay the same:</strong> Thurston needs to swing from 46.5% to 55.8% &mdash; a 9.3-point swing.<br>
+        <strong>If Lewis also improves (29% &rarr; 45%):</strong> Thurston only needs 51.0% &mdash; a 4.5-point swing.<br>
+        <strong>Without Thurston improving at all:</strong> The other four counties would need a combined 53.8%, up from 43.6%. Effectively impossible.
+      </div>
+
+      <div class="levy-prose" style="margin-top: 1rem;">
+        A future levy campaign is primarily a Thurston County campaign. Mason and Pacific are already yes. Grays Harbor is close. Lewis is the most resistant and matters mainly for reducing the Thurston threshold from 56% to 51%.
+        A successful campaign should lead with fiscal accountability &mdash; demonstrating what the board has done to fix the problems documented here &mdash; rather than simply arguing that libraries deserve more funding. Thurston County voters support libraries; what they need is evidence that their money will be managed differently than it was.
+      </div>
+
+      <div class="levy-source">
+        Source: Washington Secretary of State, 2009 certified election results. Scenarios assume similar turnout distribution.
+        On the same 2009 ballot, Shelton's annexation into TRL passed 88.3% &mdash; Mason County voters wanted library service, they just also wanted it funded accountably.
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-num near">6</div>
+      <div class="action-title">Set compensation benchmarks for the next executive director</div>
+      <div class="action-body">
+        With the executive director's resignation, the board has a natural opportunity to reset. The outgoing ED's salary ($213K) was roughly proportional to peers by population served (Sno-Isle's ED: $244K for 800K population). The issue was not the level but the optics and timing &mdash; raises approved alongside frontline layoffs, and a 2-year contract with 3% annual increases adopted 11 weeks before the layoffs.
+        The next ED contract should include performance metrics tied to fiscal health (reserve levels, administrative cost ratios), not just tenure-based increases.
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3: Structural -->
+  <div class="phase">
+    <div class="phase-header structural">Structural Reforms</div>
+
+    <div class="action">
+      <div class="action-num structural">7</div>
+      <div class="action-title">Adopt an administrative cost ratio target</div>
+      <div class="action-body">
+        Set a board policy capping Service Center salary spending at a fixed percentage of total salary spending &mdash; benchmarked to the 2019 ratio and peer systems. Review annually as part of budget approval. This makes the headcount inversion documented in Exhibit I visible in every future budget and prevents a repeat of the pattern where Service Center share of total FTE grew from 14.4% (2019) to 19.2% (2026) without board scrutiny.
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-num structural">8</div>
+      <div class="action-title">Restore board financial oversight</div>
+      <div class="action-body">
+        The pattern documented in <a href="index.html">Exhibits A&ndash;C</a> &mdash; leadership assuring the board of fiscal health while reserves collapsed &mdash; reflects a gap in information &mdash; leadership knew more than the board did. The board should require quarterly financial dashboards with trend lines (revenue vs. expenditures, fund balance trajectory, salary-per-FTE growth), not just annual budget presentations. Board members should have direct access to financial data, not solely leadership's interpretations of it.
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-num structural">9</div>
+      <div class="action-title">Fill all board vacancies</div>
+      <div class="action-body">
+        Two of seven board seats &mdash; the Mason County seat and the Thurston County at-large seat &mdash; have been vacant since at least early 2025 (per board meeting minutes from January 2025 onward, which note &ldquo;two positions that are vacant&rdquo;). Every major financial decision of the crisis &mdash; the Collective Bargaining Agreement, the deficit budget, the executive director's contract, the layoffs &mdash; was made by a board operating at 5 of 7 members or fewer. The five county commissions that appoint TRL's trustees should fill all vacancies promptly. A full board is a prerequisite for the governance reforms described in Steps 7 and 8.
+      </div>
+    </div>
+
+    <div class="action">
+      <div class="action-num structural">10</div>
+      <div class="action-title">Preserve the five-county district</div>
+      <div class="action-body">
+        The 2009 levy vote showed that the two smallest rural counties &mdash; Mason (55.4% yes) and Pacific (51.8% yes) &mdash; voted to approve, while Thurston (46.5%), Grays Harbor (44.3%), and Lewis (29.2%) voted against. The measure failed district-wide at 45.1%.
+        Dissolution would harm the communities that most support library funding and would eliminate the economies of scale that allow small branches in places like Amanda Park, Oakville, and Naselle to exist at all.
+        <br><br>
+        Administrative reform &mdash; not county exit &mdash; is the path that serves all five counties. The data in these exhibits shows that the deficit was caused by governance decisions, not by an inherent flaw in the intercounty model. The incoming executive director and the board can reverse those decisions. The model should be preserved.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout green-callout">
+    <strong>The path forward in one sentence:</strong> demonstrate fiscal discipline through administrative reform (Steps 1&ndash;4),
+    use the leadership transition to reset compensation expectations (Step 6),
+    then ask voters for the revenue the district has been leaving on the table for seventeen years (Step 5),
+    and build governance structures that prevent recurrence (Steps 7&ndash;10).
+    <br><br>
+    The data in these exhibits points to three conclusions: the direction of salary growth was defensible &mdash; TRL staff were underpaid. The speed was not sustainable &mdash; no peer system grew at anything close to TRL's rate. And the allocation favored administration over frontline service.
+    <br><br>
+    Right direction. Right speed. Right allocation.
+  </div>
+
+  <div class="sources">
+    <strong>References:</strong> Levy lid lift process: RCW 84.55.050, WA Department of Revenue Ballot Measure Requirements.
+    For intercounty library districts, the board must send the levy request to county commissioners for certification before it goes to voters (WA State Library trustee guidance).
+    Sno-Isle levy history: 2009, 2018 (passed 50.46%), 2026 (board resolution adopted March 23, 2026, targeting August 4 ballot).
+    KCLS levy history: 2002, 2010.
+    TRL 2009 levy results: Washington Secretary of State certified election results &mdash; Mason 55.4% yes, Pacific 51.8% yes, Thurston 46.5%, Grays Harbor 44.3%, Lewis 29.2%; district-wide 45.1% yes (failed).
+    All data references point to exhibits in this series (A&ndash;J).
+    <br><br>
+    Prepared March 2026.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════ -->
+
+<footer class="footer">
+  All data from public records: TRL Final Budget documents, Washington Public Library Statistical Report (maintained by Bellingham Public Library), BLS CPI data, Washington Secretary of State election results, and published news reporting (Chinook Observer, The Daily Chronicle, Lynnwood Times, HeraldNet). Prepared March 2026.
+  <nav class="part-nav">
+    <a href="index.html">&larr; Part 1: Anatomy of a Financial Crisis (Exhibits A&ndash;H)</a>
+  </nav>
+</footer>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     CHART.JS SCRIPTS
+     ═══════════════════════════════════════════════════════ -->
+
+<script>
+// ── Global Chart.js configuration ──
+Chart.defaults.font.family = "'IBM Plex Sans', -apple-system, sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#555';
+
+// ═══════════════════════════════════
+// EXHIBIT I CHARTS
+// ═══════════════════════════════════
+
+const exIYears = ['2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
+
+// Service Center total salary spending (6 departments)
+// 2017-2019: Actuals from 2021 Final Budget dept expenditure tables
+// 2020: Year-end estimates from 2021 Final Budget
+// 2021-2026: Budgeted from TRL Final Budget documents
+const actual = [2170828, 2205882, 2057538, 2009900, 1997530, 2126333, 2744135, 3156903, 3551785, 4397258];
+
+// CPI-adjusted 2017 baseline (2017 spending grown at Seattle CPI, same staffing)
+const cpiAdj = [2170828, 2240424, 2297408, 2336325, 2442665, 2662559, 2816924, 2921413, 2994223, 3099018];
+
+// Service Center FTE
+const scFte = [37.05, 36.65, 35.95, 32.55, 29.50, 31.00, 34.40, 36.50, 37.50, 44.33];
+
+// Per-person salary (actual $/FTE)
+const perFte = [58592, 60188, 57233, 61748, 67713, 68591, 79771, 86490, 94714, 99194];
+
+// CPI-adjusted per-person (2017 $/FTE grown at CPI)
+const cpiPerFte = [58592, 60470, 62008, 63059, 65929, 71864, 76030, 78851, 80816, 83644];
+
+// ── Chart 1: Trajectory — Actual vs CPI-Adjusted Spending ──
+new Chart(document.getElementById('trajectoryChart').getContext('2d'), {
+  type: 'line',
+  data: {
+    labels: exIYears,
+    datasets: [
+      { label: 'Actual Spending', data: actual, borderColor: '#c23b22', borderWidth: 3, fill: false, tension: 0.3, pointRadius: 5, pointBackgroundColor: '#c23b22', order: 1 },
+      { label: 'If 2017 Grew at CPI', data: cpiAdj, borderColor: '#2c5f8a', borderWidth: 2.5, borderDash: [6,3], fill: false, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#2c5f8a', order: 2 },
+      { label: '_fill_above', data: actual, borderColor: 'transparent', backgroundColor: 'rgba(194,59,34,0.10)', fill: { target: 1, above: 'rgba(194,59,34,0.10)', below: 'rgba(44,95,138,0.08)' }, tension: 0.3, pointRadius: 0, order: 0 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20, font: { size: 12, weight: '500' }, filter: i => !i.text.startsWith('_') } },
+      tooltip: { backgroundColor: '#1a1a1a', callbacks: {
+        label: ctx => {
+          if (ctx.dataset.label.startsWith('_')) return null;
+          return ctx.dataset.label + ': $' + (ctx.parsed.y/1e6).toFixed(2) + 'M';
+        },
+        afterBody: ctx => {
+          const actual_v = actual[ctx[0].dataIndex];
+          const cpi_v = cpiAdj[ctx[0].dataIndex];
+          const gap = actual_v - cpi_v;
+          if (gap === 0) return '';
+          return (gap < 0 ? 'Below CPI: −$' : 'Above CPI: +$') + Math.abs(gap).toLocaleString();
+        }
+      }, filter: i => !i.dataset.label.startsWith('_') }
+    },
+    scales: {
+      y: { min: 1800000, max: 4600000, ticks: { callback: v => '$'+(v/1e6).toFixed(1)+'M', font: { family: "'IBM Plex Mono', monospace", size: 11 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
+      x: { grid: { display: false }, ticks: { font: { weight: '600' } } }
+    }
+  }
+});
+
+// ── Chart 2: Per-Person Cost — Actual $/FTE vs CPI $/FTE ──
+new Chart(document.getElementById('perFteChart2').getContext('2d'), {
+  type: 'line',
+  data: {
+    labels: exIYears,
+    datasets: [
+      { label: 'Actual $/FTE', data: perFte, borderColor: '#c23b22', borderWidth: 3, fill: false, tension: 0.3, pointRadius: 5, pointBackgroundColor: '#c23b22' },
+      { label: '2017 $/FTE at CPI', data: cpiPerFte, borderColor: '#2c5f8a', borderWidth: 2.5, borderDash: [6,3], fill: false, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#2c5f8a' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20, font: { size: 12, weight: '500' } } },
+      tooltip: { backgroundColor: '#1a1a1a', callbacks: { label: ctx => ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString() } }
+    },
+    scales: {
+      y: { min: 50000, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K', font: { family: "'IBM Plex Mono', monospace", size: 11 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
+      x: { grid: { display: false }, ticks: { font: { weight: '600' } } }
+    }
+  }
+});
+
+// ── Chart 3: Admin Expense Ratio Trend ──
+const scSalaryShare = [18.6, 18.9, 17.6, 16.3, 16.9, 17.4, 20.3, 22.1, 22.7, 25.7];
+const scFteShare = [14.6, 14.5, 14.4, 13.0, 12.7, 13.6, 15.2, 16.0, 16.4, 19.2];
+
+new Chart(document.getElementById('ratioChart').getContext('2d'), {
+  type: 'line',
+  data: {
+    labels: exIYears,
+    datasets: [
+      { label: 'Service Ctr. Salary Share (%)', data: scSalaryShare, borderColor: '#c23b22', borderWidth: 3, fill: false, tension: 0.3, pointRadius: 5, pointBackgroundColor: '#c23b22' },
+      { label: 'Service Ctr. FTE Share (%)', data: scFteShare, borderColor: '#2c5f8a', borderWidth: 2.5, borderDash: [6,3], fill: false, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#2c5f8a' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20, font: { size: 12, weight: '500' } } },
+      tooltip: { backgroundColor: '#1a1a1a', callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%' } }
+    },
+    scales: {
+      y: { min: 10, max: 28, ticks: { callback: v => v + '%', font: { family: "'IBM Plex Mono', monospace", size: 11 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
+      x: { grid: { display: false }, ticks: { font: { weight: '600' } } }
+    }
+  }
+});
+
+// ── Chart 4: FTE Trajectory ──
+new Chart(document.getElementById('fteFullChart').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: exIYears,
+    datasets: [{
+      label: 'Service Center FTE',
+      data: scFte,
+      backgroundColor: scFte.map((v,i) => {
+        if (i <= 2) return 'rgba(44,95,138,0.5)';   // 2017-2019: pre-COVID
+        if (i <= 4) return 'rgba(107,91,138,0.5)';   // 2020-2021: COVID cuts
+        return 'rgba(194,59,34,0.7)';                 // 2022-2026: rebuild & expansion
+      }),
+      borderColor: scFte.map((v,i) => {
+        if (i <= 2) return '#2c5f8a';
+        if (i <= 4) return '#6b5b8a';
+        return '#c23b22';
+      }),
+      borderWidth: 1, borderRadius: 2
+    }]
+  },
+  plugins: [{
+    id: 'baselineLine',
+    afterDraw(chart) {
+      const meta = chart.getDatasetMeta(0);
+      const ctx = chart.ctx;
+      const yScale = chart.scales.y;
+      const y = yScale.getPixelForValue(35.95);
+      const xStart = meta.data[0].x - 20;
+      const xEnd = meta.data[meta.data.length-1].x + 20;
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash([6,4]);
+      ctx.strokeStyle = '#1a1a1a';
+      ctx.lineWidth = 1.5;
+      ctx.moveTo(xStart, y);
+      ctx.lineTo(xEnd, y);
+      ctx.stroke();
+      ctx.fillStyle = '#1a1a1a';
+      ctx.font = "12px 'IBM Plex Sans', sans-serif";
+      ctx.textAlign = 'right';
+      ctx.fillText('2019 pre-COVID level (36.0)', xEnd, y - 6);
+      ctx.restore();
+    }
+  }],
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { min: 25, max: 48, ticks: { callback: v => v+' FTE', font: { family: "'IBM Plex Mono', monospace", size: 11 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
+      x: { grid: { display: false }, ticks: { font: { weight: '600' } } }
+    }
+  }
+});
+
+// ═══════════════════════════════════
+// EXHIBIT J CHARTS
+// ═══════════════════════════════════
+
+const peerYears = ['2017','2018','2019','2020','2021','2022','2023','2024'];
+
+const systems = {
+  'Timberland Regional': {
+    color: '#c23b22', width: 3.5,
+    perFte: [45747, 36855, 40134, 57040, 50257, 51854, 59836, 64269]
+  },
+  'Sno-Isle': {
+    color: '#2c5f8a', width: 2,
+    perFte: [64227, 66672, 69404, 75974, 76283, 79675, 77625, 82014]
+  },
+  'Pierce County': {
+    color: '#6b5b8a', width: 2,
+    perFte: [57767, 60245, 59635, 63290, 60819, 69161, 73677, 75508]
+  },
+  'Fort Vancouver': {
+    color: '#b8860b', width: 2,
+    perFte: [45206, 45619, 47475, 47109, 47712, 51193, 53981, 58367]
+  },
+  'Kitsap Regional': {
+    color: '#3a7d44', width: 2,
+    perFte: [48262, 47240, 53247, 56873, 56414, 65153, 59731, 62782]
+  },
+  'Whatcom County': {
+    color: '#888', width: 2,
+    perFte: [44872, 46623, 48247, 50577, 52144, 54324, 58236, 59592]
+  },
+  'KCLS': {
+    color: '#aaa', width: 1.5,
+    perFte: [57045, 66541, 70906, 51611, null, null, 70345, 77732]
+  }
+};
+
+// ── Chart 5: Salary per FTE lines ──
+const datasets5 = Object.entries(systems).map(([name, d]) => ({
+  label: name,
+  data: d.perFte,
+  borderColor: d.color,
+  borderWidth: name === 'Timberland Regional' ? 3.5 : 2,
+  pointRadius: name === 'Timberland Regional' ? 5 : 3,
+  pointBackgroundColor: d.color,
+  tension: 0.3,
+  fill: false,
+  spanGaps: true,
+  order: name === 'Timberland Regional' ? 0 : 1
+}));
+
+new Chart(document.getElementById('perFteChart').getContext('2d'), {
+  type: 'line',
+  data: { labels: peerYears, datasets: datasets5 },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'bottom', labels: { usePointStyle: true, padding: 14, font: { size: 11, weight: '500' } } },
+      tooltip: { backgroundColor: '#1a1a1a', callbacks: { label: ctx => ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString() } }
+    },
+    scales: {
+      y: { min: 30000, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K', font: { family: "'IBM Plex Mono', monospace", size: 11 } }, grid: { color: 'rgba(0,0,0,.06)' } },
+      x: { grid: { display: false }, ticks: { font: { weight: '600' } } }
+    }
+  }
+});
+
+// ── Chart 6: Growth rate bars (2017→2024) ──
+const growthData = [
+  { name: 'TRL', val: 41, color: '#c23b22' },
+  { name: 'KCLS', val: 36, color: '#aaa' },
+  { name: 'Whatcom', val: 33, color: '#888' },
+  { name: 'Pierce', val: 31, color: '#6b5b8a' },
+  { name: 'Kitsap', val: 30, color: '#3a7d44' },
+  { name: 'Ft Vancouver', val: 29, color: '#b8860b' },
+  { name: 'Sno-Isle', val: 28, color: '#2c5f8a' },
+];
+
+new Chart(document.getElementById('growthChart').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: growthData.map(d => d.name),
+    datasets: [{
+      data: growthData.map(d => d.val),
+      backgroundColor: growthData.map(d => d.name === 'TRL' ? 'rgba(194,59,34,0.8)' : 'rgba(44,95,138,0.5)'),
+      borderColor: growthData.map(d => d.name === 'TRL' ? '#c23b22' : '#2c5f8a'),
+      borderWidth: 1, borderRadius: 3
+    }]
+  },
+  plugins: [{
+    id: 'medianLine',
+    afterDraw(chart) {
+      const ctx = chart.ctx;
+      const yScale = chart.scales.y;
+      const xScale = chart.scales.x;
+      const y = yScale.getPixelForValue(30);
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash([6,4]);
+      ctx.strokeStyle = '#555';
+      ctx.lineWidth = 1.5;
+      ctx.moveTo(xScale.left, y);
+      ctx.lineTo(xScale.right, y);
+      ctx.stroke();
+      ctx.fillStyle = '#555';
+      ctx.font = "11px 'IBM Plex Sans', sans-serif";
+      ctx.textAlign = 'right';
+      ctx.fillText('Peer median: +30%', xScale.right, y - 6);
+      ctx.restore();
+    }
+  }],
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1a1a1a', callbacks: { label: ctx => '+' + ctx.parsed.x + '%' } } },
+    scales: {
+      x: { ticks: { callback: v => '+' + v + '%', font: { family: "'IBM Plex Mono', monospace", size: 11 } }, grid: { color: 'rgba(0,0,0,.06)' } },
+      y: { grid: { display: false }, ticks: { font: { weight: '600', size: 12 } } }
+    }
+  }
+});
+</script>
+</body>
+</html>

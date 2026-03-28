@@ -59,7 +59,7 @@ Location: [`expense-reports/`](./expense-reports/)
 
 Board meeting recordings are public records available from TRL. Timestamps in the report reference specific moments in these recordings. Full recordings are too large for GitHub hosting; trimmed clips of key moments may be added in a future update.
 
-All quotes were verified against the original recordings by a human reviewer. Timestamps in the report reference specific moments for independent verification.
+All quotes were verified against the original recordings. Timestamps in the report reference specific moments for independent verification.
 
 ## What is NOT included here
 

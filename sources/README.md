@@ -59,7 +59,7 @@ Location: [`expense-reports/`](./expense-reports/)
 
 Board meeting recordings are public records available from TRL. Timestamps in the report reference specific moments in these recordings. Full recordings are too large for GitHub hosting; trimmed clips of key moments may be added in a future update.
 
-Transcripts were generated using WhisperX (automated speech-to-text) and are maintained in a separate archive. WhisperX frequently garbles proper names (e.g., "Heywood" becomes "Haywood", "Mittge" becomes "Midcay"). All names in the report were verified against published sources (budget documents, news articles), not transcripts.
+All quotes were verified against the original recordings by a human reviewer. Timestamps in the report reference specific moments for independent verification.
 
 ## What is NOT included here
 

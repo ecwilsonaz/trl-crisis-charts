@@ -648,6 +648,16 @@ td.pos { color: var(--red) !important; }
 .levy-table .yes { color: var(--green-dark); }
 .levy-table .no { color: var(--red); }
 
+.levy-table.prose-table tbody td {
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  vertical-align: top;
+}
+.levy-table.prose-table thead th {
+  text-align: left;
+}
+
 .levy-prose {
   font-family: var(--font-serif);
   font-size: 0.95rem;
@@ -1807,7 +1817,7 @@ a { color: var(--blue); }
       The table below summarizes every documented instance. The full narrative, with direct quotes from meeting transcripts, follows.
     </div>
 
-    <table class="levy-table" style="font-size: 0.82rem; margin-bottom: 1.75rem;">
+    <table class="levy-table prose-table" style="margin-bottom: 1.75rem;">
       <thead>
         <tr>
           <th>Date</th>

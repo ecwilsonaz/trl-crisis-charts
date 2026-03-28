@@ -552,7 +552,7 @@ body {
       <div class="legend-item" style="display: none">Salaries</div>
     </div>
     <canvas id="chartA" style="height: 42vh"></canvas>
-    <div class="chart-note">Shaded area = deficit (expenditures exceeding revenue)</div>
+    <div class="chart-note">Shaded area = deficit (expenditures exceeding revenue). 2020 expenditures exclude a $5.6M one-time transfer to the Building Fund for the Mountain View library build (shown separately in Exhibit D).</div>
   </div>
 </section>
 
@@ -745,13 +745,14 @@ const C = {
 // ─── EXHIBIT A: Revenue vs Expenditures ───
 (function() {
   const { ctx, w, h } = getCtx('chartA');
-  // All data from TRL Final Budget documents (General Fund)
+  // All data from TRL Final Budget documents (General Fund — Total Expenditures line)
   // 2017-2018: 2021 Final Budget actuals. 2019-2020: 2023 Final Budget actuals.
-  // 2021-2024: 2025 Final Budget. 2025-2026: budget projections.
+  // 2021-2023: 2025 Final Budget actuals. 2024-2026: 2026 Final Budget (2024 actual, 2025 YE est, 2026 budget).
+  // 2020 excludes $5.6M one-time transfer to Building Fund for Mountain View library build (see Exhibit D).
   const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
   // 2017-2024: Actuals from TRL budget docs. 2025: YE est from 2026 Final Budget. 2026: budget.
   const revenue =      [22986972, 23711616, 24448997, 24669027, 25536273, 25931476, 26109656, 26884485, 27129350, 29002000];
-  const expenditures = [21911028, 22979157, 22979157, 23102946, 24687671, 24608630, 27057712, 28452840, 30432723, 32811283];
+  const expenditures = [22049853, 21911028, 22979157, 23102946, 24687671, 24608630, 27057712, 28452840, 30432723, 32811283];
   const salaries =     [11696498, 11682925, 11674836, 12330800, 11818000, 12193513, 13545748, 14290186, 15628985, 17102264];
   const projStart = 8; // 2025
 
@@ -921,8 +922,8 @@ const C = {
   // 2024: Actual from 2025 Budget Adjustment (Res 25-001). 2025: Actual from 2026 Budget Adjustment (Res 26-001).
   const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
   const balance = [14844623, 16587482, 18457245, 19027215, 19768961, 18904276, 14449444, 14483485, 9441497, 7244070];
-  // For 30% threshold, use GF revenue
-  const revenue = [22986972, 23711616, 24448997, 24669027, 25536273, 25931476, 26109656, 26973750, 28104200, 29002000];
+  // For 30% threshold, use GF revenue (same series as Exhibit A — 2026 Final Budget is most current source)
+  const revenue = [22986972, 23711616, 24448997, 24669027, 25536273, 25931476, 26109656, 26884485, 27129350, 29002000];
   const threshold = revenue.map(r => r * 0.30);
 
   const pad = { t: 30, r: isMobile ? 40 : 60, b: isMobile ? 74 : 100, l: isMobile ? 50 : 70 };

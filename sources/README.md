@@ -15,6 +15,14 @@ These are the primary source for nearly every number in both parts: salary data,
 | `2023-Final-Budget.pdf` | trl.org | 2019-2021 actuals, 2022 estimate, 2023 budget. Courier department dissolved into Facilities. |
 | `2025-Final-Budget.pdf` | trl.org | 2021-2023 actuals, 2024 estimate, 2025 budget. Levy rate: $0.234024 (p.10). |
 | `2026-Final-Budget.pdf` | [trl.org](https://trl.org/wp-content/uploads/sites/140/2025/12/2026-Final-Budget.pdf) | 2022-2024 actuals, 2025 estimate, 2026 budget. Levy rate: $0.228924 (p.9). Position Inventory with admin salary increases (pp.18-22). |
+| `Resolution 25-001 2025 Budget Adjustment.pdf` | TRL Board meeting, Feb 26, 2025 | Amends 2025 budget. Exhibit A reports 2024 actual fund balances (used in Exhibit C). |
+| `Resolution 26-001 2026 Budget Adjustment.pdf` | TRL Board meeting, Feb 25, 2026 | Amends 2026 budget. Exhibit A reports 2025 actual fund balances (used in Exhibit C). |
+
+### How Exhibit A expenditure data was sourced
+
+Exhibit A uses the "Total Expenditures" line from the General Fund Expenditures detail tables in each Final Budget, with one adjustment: the 2020 figure excludes a $5.6M one-time transfer to the Building Fund for the Mountain View library build. This transfer would create a misleading spike on the revenue-vs-expenditures chart; the building spend is covered separately in Exhibit D. Routine annual transfers ($218K–$593K) are included in all other years for consistency with TRL's own Budget in a Page totals, including the $3.8M 2026 deficit figure.
+
+Revenue data for both Exhibits A and C uses the same series from the 2026 Final Budget (the most current source): 2017–2024 actuals, 2025 year-end estimate, 2026 budget.
 
 ### How salary data was cross-referenced (Exhibit I)
 
